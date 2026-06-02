@@ -1,122 +1,81 @@
-# Piscilago 2.0 · Experiencia Inteligente
+# Piscilago 2.0 · Versión Inteligente
 
-Prototipo funcional de la evolución de la app oficial de Piscilago Colsubsidio. Desarrollado para la sustentación de la Maestría en Gerencia de Proyectos · Universidad EAN.
+Evolución oficial de la app de Piscilago Colsubsidio con sistema inteligente de gestión de filas, recompensas por movilidad y programa de Guardianes de Conservación. Desarrollado para la sustentación de Maestría en Gerencia de Proyectos · Universidad EAN.
 
 ## Rutas del prototipo
 
-| URL              | Vista                                            | Para qué sirve                                     |
-| ---------------- | ------------------------------------------------ | -------------------------------------------------- |
-| `/home`          | Pantalla de inicio del visitante                 | Hero card, recomendación IA y accesos rápidos      |
-| `/mapa`          | Mapa inteligente con congestión en tiempo real   | Visualización del parque por colores               |
-| `/filas`         | Listado priorizado por IA                        | Filas inteligentes con redistribución de flujo     |
-| `/recompensas`   | Gamificación por movilidad (2k/4k/6k/8k pasos)   | Sistema de descuentos progresivos                  |
-| `/pulsera`       | Pulsera NFC con saldo y grupo familiar           | Puente físico-digital del visitante                |
-| `/panel/sendero` | Panel digital físico (landscape)                 | Vista para proyectar en monitores del parque       |
-| `/admin`         | Dashboard de operaciones                         | KPIs en tiempo real para la operación              |
+**Tabs principales del visitante**
 
-Todas las pantallas leen del mismo motor de datos (`lib/useLiveData.ts`) que simula actualizaciones cada 15-30 segundos. Si abres `/mapa` y `/panel/sendero` en dos pantallas distintas verás los mismos datos sincronizados — ese es el punto de la propuesta.
+| URL              | Pantalla                                                    |
+| ---------------- | ----------------------------------------------------------- |
+| `/home`          | Inicio con logo Piscilago, mapa preview, smart layer        |
+| `/mapa`          | Smart map con tiempos en vivo y filtros                     |
+| `/filas`         | Filas Inteligentes priorizadas por IA                       |
+| `/huellas`       | Insignias de Guardián + puntos verdes + recompensas         |
+| `/pasaporte`     | Identidad oficial + Pulsera NFC + saldo + grupo             |
 
-## Paso 1 — Probar localmente (opcional pero recomendado)
+**Rutas dinámicas y operación**
 
-Necesitas tener instalado Node.js versión 18 o superior. Si no lo tienes, descárgalo de https://nodejs.org
+| URL                    | Pantalla                                                  |
+| ---------------------- | --------------------------------------------------------- |
+| `/especies/[id]`       | Detalle de especie (anaconda, caiman-llanero, etc.)       |
+| `/panel/[especie]`     | Panel digital del sendero temático (proyección física)    |
+| `/admin`               | Dashboard de operaciones del parque                       |
 
-Abre una terminal en la carpeta del proyecto y corre:
+**Especies disponibles**: `anaconda`, `caiman-llanero`, `oso-anteojos`, `mono-arana`, `tortuga-hicotea`
 
-```bash
-npm install
-npm run dev
-```
+## Cómo actualizar el repositorio existente en GitHub
 
-Espera unos 30 segundos a que termine de instalar y abre http://localhost:3000 en tu navegador. Deberías ver la pantalla Home del prototipo.
+Si ya tienes la versión 1.0 desplegada en Vercel, este es el procedimiento más simple para actualizarla a v2.0 sin perder la URL ni reconfigurar Vercel.
 
-Si algo falla en este paso, **no te preocupes** — puedes saltarte directo a Vercel y probarlo desde ahí.
+### Opción A — Reemplazar archivos vía GitHub web (recomendada, 5 min)
 
-## Paso 2 — Subir el código a GitHub
+1. Entra a tu repositorio `github.com/Brandonscm/piscilago-v2`
+2. Click en **Add file** arriba a la derecha → **Upload files**
+3. Descomprime el nuevo zip y arrastra TODO su contenido al área de upload
+4. GitHub te avisará que algunos archivos ya existen — eso es esperado, los va a sobrescribir
+5. Al final, en "Commit changes" escribe: `Update to v2.0 - branding oficial + insignias de Guardian + senderos tematicos`
+6. Click **Commit changes**
 
-### 2.1 Crear el repositorio
+Vercel detecta el push automáticamente y despliega la nueva versión en 2-3 minutos. Tu URL `piscilago-v2.vercel.app` no cambia, solo se actualiza el contenido.
 
-1. Entra a https://github.com e inicia sesión con tu cuenta
-2. Haz clic en el botón verde **New** (arriba a la izquierda) para crear un repositorio nuevo
-3. En el campo "Repository name" escribe `piscilago-v2`
-4. Deja todo en valores por defecto (público, sin README, sin .gitignore, sin license)
-5. Haz clic en **Create repository**
+### Opción B — Borrar repo y volver a subir
 
-GitHub te mostrará una página con instrucciones. Mantenla abierta en una pestaña, vas a copiar la URL del repositorio (algo como `https://github.com/tu-usuario/piscilago-v2.git`).
+Si la opción A te trae conflictos:
 
-### 2.2 Subir los archivos del proyecto
-
-La forma más fácil para alguien que no usa GitHub a diario: usa la web directamente.
-
-1. En la página del repositorio recién creado, haz clic en **uploading an existing file** (el link aparece en el medio de la página)
-2. Arrastra **TODOS los archivos y carpetas** de este proyecto a la zona de upload
-3. Espera a que se carguen (puede tomar 1-2 minutos)
-4. Al final de la página, en "Commit changes", escribe un mensaje como `Initial commit · Piscilago 2.0` y haz clic en **Commit changes**
-
-Listo, tu código está en GitHub.
-
-> **Alternativa si te sientes con confianza:** usa la app oficial de GitHub Desktop (https://desktop.github.com/) que es gráfica y maneja todo por ti.
-
-## Paso 3 — Desplegar en Vercel
-
-1. Entra a https://vercel.com
-2. Haz clic en **Sign Up** y elige **Continue with GitHub** (esto conecta automáticamente tu cuenta)
-3. Una vez dentro de Vercel, haz clic en **Add New...** → **Project**
-4. Vercel te mostrará tus repositorios de GitHub. Busca `piscilago-v2` y haz clic en **Import**
-5. En la siguiente pantalla, Vercel detecta automáticamente que es Next.js. **No cambies nada**, solo haz clic en **Deploy**
-6. Espera 2-3 minutos. Cuando termine, verás una pantalla con confetti y un link tipo `piscilago-v2-tu-usuario.vercel.app`
-
-Ese link es tu app pública. Lo puedes abrir en cualquier celular o computador del jurado durante la sustentación.
-
-## Paso 4 — Hacer cambios y desplegar de nuevo
-
-Cada vez que actualices el código en GitHub, Vercel detecta el cambio y despliega la nueva versión automáticamente en menos de 2 minutos. No tienes que hacer nada más.
-
-Para subir un cambio:
-
-1. En la página de tu repositorio en GitHub, navega al archivo que quieras editar
-2. Haz clic en el ícono del lápiz (arriba a la derecha)
-3. Edita el código
-4. Abajo, haz clic en **Commit changes**
-5. Listo, Vercel desplegará automáticamente
+1. En GitHub, ve a tu repo → **Settings** → baja al final → **Delete this repository**
+2. Confirma escribiendo el nombre del repo
+3. Crea uno nuevo con el mismo nombre `piscilago-v2`
+4. Sube el zip nuevo como hiciste la primera vez
+5. En Vercel ve a tu proyecto → **Settings** → **Git** → reconecta al nuevo repo (si fuera necesario)
 
 ## Stack técnico
 
-- Next.js 14 (App Router) — framework de React optimizado para producción
-- React 18 con TypeScript estricto
-- Tailwind CSS — sistema de utilidades para estilos
-- lucide-react — iconos
-- Sin backend ni base de datos — todo corre con datos simulados en el navegador
+- Next.js 14 (App Router) con TypeScript estricto
+- Tailwind CSS con paleta extendida: Colsubsidio blue + sun yellow + wild magenta
+- lucide-react para iconos
+- Plus Jakarta Sans como tipografía
+- Sin backend: datos en vivo simulados por hooks de React
 
-## Estructura del código
+## Sistema de marca extendido
 
-```
-app/
-  layout.tsx              ← layout raíz
-  page.tsx                ← redirige a /home
-  globals.css             ← Tailwind + fuentes
-  (tabs)/                 ← grupo de rutas con bottom nav
-    layout.tsx            ← shell del celular + nav inferior
-    home/page.tsx
-    mapa/page.tsx
-    filas/page.tsx
-    recompensas/page.tsx
-    pulsera/page.tsx
-  panel/sendero/page.tsx  ← panel digital de senderos (landscape)
-  admin/page.tsx          ← dashboard de operaciones
+| Color    | Uso                                                  | Hex base |
+| -------- | ---------------------------------------------------- | -------- |
+| `col`    | Azul institucional Colsubsidio (primario)            | `#003478`|
+| `sun`    | Amarillo para CTAs principales y acciones clave      | `#FFB300`|
+| `wild`   | Magenta/rosa para conservación e insignias           | `#E91E63`|
+| `aqua`   | Verde-agua para experiencia inteligente y IA         | `#00897B`|
+| `status` | Verde / amarillo / rojo para semáforos de congestión | múltiple |
 
-components/
-  shell/                  ← PhoneShell, StatusBar, BottomNav
-  common/                 ← AppHeader y otros compartidos
-  home/                   ← componentes exclusivos del home
-  mapa/                   ← componentes del smart map
-  filas/                  ← componentes de filas
+## Especies del programa de conservación
 
-lib/
-  attractions.ts          ← modelo de datos de las 22 atracciones
-  useLiveData.ts          ← motor de simulación en tiempo real
-  recommender.ts          ← motor de recomendación IA
-  useSteps.ts             ← contador de pasos y tier de recompensas
-```
+| Especie         | Estado conservación        | Región                       |
+| --------------- | -------------------------- | ---------------------------- |
+| Anaconda        | Preocupación menor         | Llanos · Casanare            |
+| Caimán Llanero  | En peligro crítico         | Río Meta · Orinoquía         |
+| Oso de Anteojos | Vulnerable                 | Cordillera Oriental          |
+| Mono Araña Café | Críticamente amenazada     | Magdalena Medio              |
+| Tortuga Hicotea | Vulnerable                 | Caribe · Magdalena Medio     |
 
 ## Soporte
 
