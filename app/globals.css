@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,15 +8,8 @@
   color-scheme: light;
 }
 
-html,
-body {
-  font-family:
-    "Plus Jakarta Sans",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    system-ui,
-    sans-serif;
+html, body {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #f4f7fa;
@@ -36,20 +29,68 @@ body {
 }
 
 @keyframes pulse-ring {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.7;
-  }
-  70% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
 .pulse-ring {
   animation: pulse-ring 2s ease-out infinite;
+}
+
+/* Accessibility: High Contrast Mode */
+.a11y-contrast {
+  --tw-prose-body: #000;
+}
+.a11y-contrast body {
+  background: #fff !important;
+  color: #000 !important;
+}
+.a11y-contrast .text-ink-500 {
+  color: #1f2937 !important;
+}
+.a11y-contrast .text-ink-300 {
+  color: #374151 !important;
+}
+.a11y-contrast .border-ink-100 {
+  border-color: #1f2937 !important;
+}
+.a11y-contrast .shadow-card,
+.a11y-contrast .shadow-elevated {
+  box-shadow: 0 0 0 1.5px #1f2937 !important;
+}
+
+/* Accessibility: Reduced Motion */
+.a11y-no-motion *,
+.a11y-no-motion *::before,
+.a11y-no-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Toast animation */
+@keyframes slide-in-from-top {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+.slide-in-from-top {
+  animation-name: slide-in-from-top;
+}
+.duration-300 {
+  animation-duration: 300ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

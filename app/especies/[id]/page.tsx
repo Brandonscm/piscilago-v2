@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Shield, MapPin, Map as MapIcon, Sparkles, Leaf, Trees } from "lucide-react";
+import { Shield, MapPin, Map as MapIcon, Sparkles, Leaf } from "lucide-react";
 import { speciesById } from "@/lib/species";
 import { showToast } from "@/lib/toast";
 import { useInsignias } from "@/lib/useInsignias";
+import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 
 export default function EspecieDetailPage() {
   const router = useRouter();
@@ -30,21 +31,21 @@ export default function EspecieDetailPage() {
 
   return (
     <div className="min-h-screen bg-surface-50 pb-8">
-      <div className="relative h-[280px] bg-ink-900">
+      <div className="bg-surface-50 sticky top-0 z-20 shadow-card/30">
+        <Breadcrumbs
+          items={[
+            { label: "Huellas", href: "/huellas" },
+            { label: species.name },
+          ]}
+        />
+      </div>
+      <div className="relative h-[260px] bg-ink-900">
         <img
           src={species.imageUrl}
           alt={species.name}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/20 to-ink-900/40" />
-
-        <button
-          onClick={() => router.back()}
-          className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur flex items-center justify-center text-ink-900 shadow-card active:scale-95 transition-transform"
-          aria-label="Volver"
-        >
-          <ArrowLeft size={17} strokeWidth={2} />
-        </button>
 
         <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 bg-wild-500 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wide shadow-elevated">
           <Shield size={11} strokeWidth={2.5} />

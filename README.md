@@ -1,82 +1,62 @@
-# Piscilago 2.0 · Versión Inteligente
+# Piscilago 2.0 · Versión Premium
 
-Evolución oficial de la app de Piscilago Colsubsidio con sistema inteligente de gestión de filas, recompensas por movilidad y programa de Guardianes de Conservación. Desarrollado para la sustentación de Maestría en Gerencia de Proyectos · Universidad EAN.
+Evolución oficial de la app Piscilago Colsubsidio con sistema inteligente de gestión de filas, recompensas por movilidad, programa de Guardianes de Conservación, **asistente conversacional**, **menú de accesibilidad** y **carruseles automáticos**. Desarrollado para la sustentación de Maestría en Gerencia de Proyectos · Universidad EAN.
+
+## Features destacadas (lo nuevo de esta versión)
+
+- **Asistente flotante con IA conversacional**: botón circular bottom-right que abre chat. Pre-cargado con respuestas a más de 18 patrones de preguntas (recomendaciones, especies, calor, filas, insignias, etc.) y deep-links automáticos a las pantallas relevantes.
+- **Menú de accesibilidad**: tamaño de texto (3 escalas), alto contraste y reducir animaciones. Preferencias persistidas en localStorage.
+- **Carruseles automáticos**: Atracciones y Animales avanzan solos cada 4-5 segundos. Pausan al tocar, reanudan tras 6 segundos.
+- **Tooltips explicativos**: pequeños "i" en puntos estratégicos del Smart Layer para sustentar las decisiones de diseño sin tener que explicarlas verbalmente.
+- **Migas de pan (breadcrumbs)**: navegación clara en páginas de detalle, adaptada a temas light y dark.
+- **Toast notifications**: feedback inmediato en todas las interacciones.
 
 ## Rutas del prototipo
 
-**Tabs principales del visitante**
-
-| URL              | Pantalla                                                    |
-| ---------------- | ----------------------------------------------------------- |
-| `/home`          | Inicio con logo Piscilago, mapa preview, smart layer        |
-| `/mapa`          | Smart map con tiempos en vivo y filtros                     |
-| `/filas`         | Filas Inteligentes priorizadas por IA                       |
-| `/huellas`       | Insignias de Guardián + puntos verdes + recompensas         |
-| `/pasaporte`     | Identidad oficial + Pulsera NFC + saldo + grupo             |
-
-**Rutas dinámicas y operación**
-
-| URL                    | Pantalla                                                  |
-| ---------------------- | --------------------------------------------------------- |
-| `/especies/[id]`       | Detalle de especie (anaconda, caiman-llanero, etc.)       |
-| `/panel/[especie]`     | Panel digital del sendero temático (proyección física)    |
-| `/admin`               | Dashboard de operaciones del parque                       |
+| URL                  | Pantalla                                                |
+| -------------------- | ------------------------------------------------------- |
+| `/home`              | Inicio con logo Piscilago, mapa preview, smart layer    |
+| `/mapa`              | Smart map con tiempos en vivo y filtros                 |
+| `/filas`             | Filas Inteligentes priorizadas por IA                   |
+| `/huellas`           | Insignias de Guardián + puntos verdes + recompensas     |
+| `/pasaporte`         | Identidad oficial + Pulsera NFC + saldo + grupo         |
+| `/especies/[id]`     | Detalle de cada especie del programa de conservación    |
+| `/panel/[especie]`   | Panel digital del sendero temático (proyección física)  |
+| `/admin`             | Dashboard de operaciones del parque                     |
 
 **Especies disponibles**: `anaconda`, `caiman-llanero`, `oso-anteojos`, `mono-arana`, `tortuga-hicotea`
-
-## Cómo actualizar el repositorio existente en GitHub
-
-Si ya tienes la versión 1.0 desplegada en Vercel, este es el procedimiento más simple para actualizarla a v2.0 sin perder la URL ni reconfigurar Vercel.
-
-### Opción A — Reemplazar archivos vía GitHub web (recomendada, 5 min)
-
-1. Entra a tu repositorio `github.com/Brandonscm/piscilago-v2`
-2. Click en **Add file** arriba a la derecha → **Upload files**
-3. Descomprime el nuevo zip y arrastra TODO su contenido al área de upload
-4. GitHub te avisará que algunos archivos ya existen — eso es esperado, los va a sobrescribir
-5. Al final, en "Commit changes" escribe: `Update to v2.0 - branding oficial + insignias de Guardian + senderos tematicos`
-6. Click **Commit changes**
-
-Vercel detecta el push automáticamente y despliega la nueva versión en 2-3 minutos. Tu URL `piscilago-v2.vercel.app` no cambia, solo se actualiza el contenido.
-
-### Opción B — Borrar repo y volver a subir
-
-Si la opción A te trae conflictos:
-
-1. En GitHub, ve a tu repo → **Settings** → baja al final → **Delete this repository**
-2. Confirma escribiendo el nombre del repo
-3. Crea uno nuevo con el mismo nombre `piscilago-v2`
-4. Sube el zip nuevo como hiciste la primera vez
-5. En Vercel ve a tu proyecto → **Settings** → **Git** → reconecta al nuevo repo (si fuera necesario)
 
 ## Stack técnico
 
 - Next.js 14 (App Router) con TypeScript estricto
-- Tailwind CSS con paleta extendida: Colsubsidio blue + sun yellow + wild magenta
+- Tailwind CSS con paleta extendida: Colsubsidio blue + sun yellow + wild magenta + aqua teal
 - lucide-react para iconos
 - Plus Jakarta Sans como tipografía
+- LocalStorage para persistir preferencias de accesibilidad
 - Sin backend: datos en vivo simulados por hooks de React
 
-## Sistema de marca extendido
+## Cómo actualizar el repositorio existente en GitHub
 
-| Color    | Uso                                                  | Hex base |
-| -------- | ---------------------------------------------------- | -------- |
-| `col`    | Azul institucional Colsubsidio (primario)            | `#003478`|
-| `sun`    | Amarillo para CTAs principales y acciones clave      | `#FFB300`|
-| `wild`   | Magenta/rosa para conservación e insignias           | `#E91E63`|
-| `aqua`   | Verde-agua para experiencia inteligente y IA         | `#00897B`|
-| `status` | Verde / amarillo / rojo para semáforos de congestión | múltiple |
+1. Descomprime el zip nuevo
+2. Entra a tu repo `github.com/Brandonscm/piscilago-v2`
+3. Click **Add file** arriba a la derecha → **Upload files**
+4. Arrastra TODO el contenido al área de upload (sobreescribe archivos existentes)
+5. Mensaje del commit: `Update to v2.1 - Asistente IA + Accesibilidad + Auto-carruseles`
+6. Click **Commit changes**
+7. Vercel detecta automáticamente y despliega en 2-3 minutos
 
-## Especies del programa de conservación
+## Cómo probar las features nuevas (en sustentación)
 
-| Especie         | Estado conservación        | Región                       |
-| --------------- | -------------------------- | ---------------------------- |
-| Anaconda        | Preocupación menor         | Llanos · Casanare            |
-| Caimán Llanero  | En peligro crítico         | Río Meta · Orinoquía         |
-| Oso de Anteojos | Vulnerable                 | Cordillera Oriental          |
-| Mono Araña Café | Críticamente amenazada     | Magdalena Medio              |
-| Tortuga Hicotea | Vulnerable                 | Caribe · Magdalena Medio     |
+**Asistente flotante**: tap en el botón circular azul-magenta bottom-right de cualquier tab. Pregúntale "¿qué me recomiendas?", "tengo calor", "¿cómo gano insignias?", o el nombre de cualquier especie.
+
+**Accesibilidad**: tap en el botón redondo top-right (icono de accesibilidad). Cambia el tamaño de texto y mira cómo todo se ajusta sin recargar.
+
+**Tooltips**: en Home, tap cualquier icono "i" pequeño (al lado de "Inteligencia en vivo", "Recomendado para ti", "pasos hoy", etc.).
+
+**Carruseles**: en Home, no toques nada y mira las secciones Atracciones y Animales avanzar solas. Tócalas para pausar.
+
+**Breadcrumbs**: tap en cualquier especie de Animales protegidos → verás "Huellas / Caimán Llanero" arriba con back button.
 
 ## Soporte
 
-Si algo no funciona en cualquiera de los pasos, escríbeme con el mensaje exacto de error que ves en pantalla y resolvemos.
+Si algo no funciona, copia el mensaje de error y lo resolvemos rápido.

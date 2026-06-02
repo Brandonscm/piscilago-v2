@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { speciesById } from "@/lib/species";
 import { useLiveData } from "@/lib/useLiveData";
-import { Sparkles, TrendingUp, Clock, Users, MapPin, Shield, Leaf } from "lucide-react";
+import { Sparkles, TrendingUp, Shield, Leaf } from "lucide-react";
+import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 
 export default function PanelEspeciePage() {
   const params = useParams<{ especie: string }>();
@@ -55,7 +56,17 @@ export default function PanelEspeciePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-ink-900 via-ink-900/85 to-ink-900/60" />
       </div>
 
-      <div className="relative p-6 lg:p-10">
+      <div className="relative">
+        <div className="px-2 pt-2">
+          <Breadcrumbs
+            theme="dark"
+            items={[
+              { label: "Inicio", href: "/home" },
+              { label: `Sendero ${species.name}` },
+            ]}
+          />
+        </div>
+        <div className="p-6 lg:p-10 pt-0 lg:pt-4">
         <header className="flex items-center justify-between mb-6">
           <div>
             <div className="inline-flex items-center gap-2 mb-2">
@@ -168,6 +179,7 @@ export default function PanelEspeciePage() {
           <span>Piscilago Colsubsidio · Parque Acuático y de Conservación</span>
           <span>Acerca tu pulsera al panel para desbloquear esta insignia</span>
         </footer>
+        </div>
       </div>
     </div>
   );

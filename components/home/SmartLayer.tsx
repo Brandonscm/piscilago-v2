@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, ArrowRight, Footprints, Award } from "lucide-react";
+import { Sparkles, ArrowRight, Footprints, Award, Info } from "lucide-react";
 import type { Recommendation } from "@/lib/recommender";
+import { Tooltip } from "@/components/common/Tooltip";
 
 export function SmartLayer({
   recommendation,
@@ -23,6 +24,11 @@ export function SmartLayer({
           <h2 className="text-[11px] font-semibold text-ink-900 uppercase tracking-wide">
             Inteligencia en vivo
           </h2>
+          <Tooltip
+            content="Capa inteligente del proyecto: el motor IA procesa datos de los sensores en tiempo real para sugerirte la mejor decisión de tu visita."
+            position="bottom"
+            iconOnly
+          />
         </div>
       </div>
 
@@ -36,14 +42,20 @@ export function SmartLayer({
               <Sparkles size={18} strokeWidth={2} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] uppercase tracking-wider text-aqua-600 font-semibold">
-                Recomendado para ti ahora
-              </p>
+              <div className="flex items-center gap-1">
+                <p className="text-[9px] uppercase tracking-wider text-aqua-600 font-semibold">
+                  Recomendado para ti ahora
+                </p>
+                <Tooltip
+                  content="Selección basada en tiempo de espera, distancia y disponibilidad de cooling zones cercanas."
+                  iconOnly
+                />
+              </div>
               <p className="text-[13px] font-semibold text-ink-900 leading-tight mt-0.5 truncate">
                 {recommendation.attraction.name}
               </p>
               <p className="text-[10px] text-ink-500 mt-0.5">
-                {recommendation.attraction.waitMin} min de espera · {recommendation.message}
+                {recommendation.attraction.waitMin} min · {recommendation.message}
               </p>
             </div>
             <ArrowRight size={16} className="text-aqua-600 shrink-0" strokeWidth={2.2} />
@@ -64,7 +76,13 @@ export function SmartLayer({
               <p className="text-[15px] font-semibold text-ink-900 leading-none">
                 {steps.toLocaleString("es-CO")}
               </p>
-              <p className="text-[9px] text-ink-500 mt-0.5">pasos hoy</p>
+              <div className="flex items-center gap-1 mt-0.5">
+                <p className="text-[9px] text-ink-500">pasos hoy</p>
+                <Tooltip
+                  content="Cada 2.000 pasos desbloqueas un descuento en alimentos y tienda del parque."
+                  iconOnly
+                />
+              </div>
             </div>
           </div>
         </Link>
@@ -80,11 +98,15 @@ export function SmartLayer({
             <div className="flex-1 min-w-0">
               <p className="text-[15px] font-semibold text-ink-900 leading-none">
                 {insignias}
-                <span className="text-[10px] text-ink-500 font-normal ml-1">
-                  · {greenPoints} pts verdes
-                </span>
+                <span className="text-[10px] text-ink-500 font-normal ml-1">· {greenPoints} pts verdes</span>
               </p>
-              <p className="text-[9px] text-ink-500 mt-0.5">insignias de Guardián</p>
+              <div className="flex items-center gap-1 mt-0.5">
+                <p className="text-[9px] text-ink-500">insignias de Guardián</p>
+                <Tooltip
+                  content="Se desbloquean al escanear tu pulsera NFC en los senderos temáticos de fauna del parque."
+                  iconOnly
+                />
+              </div>
             </div>
           </div>
         </Link>
