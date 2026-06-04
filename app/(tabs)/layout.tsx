@@ -5,6 +5,7 @@ import { BrandBar } from "@/components/common/BrandBar";
 import { ToastContainer } from "@/components/common/ToastContainer";
 import { FloatingAssistant } from "@/components/common/FloatingAssistant";
 import { OnboardingGuide } from "@/components/common/OnboardingGuide";
+import { TurnoActivoBanner } from "@/components/common/TurnoActivoBanner";
 
 export default function TabsLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,6 +15,7 @@ export default function TabsLayout({ children }: { children: React.ReactNode }) 
       <StatusBar />
       <main className="flex-1 overflow-y-auto no-scrollbar">
         <BrandBar />
+        <TurnoActivoBanner />
         {children}
       </main>
       <FloatingAssistant />

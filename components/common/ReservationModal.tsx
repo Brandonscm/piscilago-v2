@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, Users, Clock, Accessibility, MessageSquare, Check, CalendarCheck, Plus, Minus } from "lucide-react";
 import { showToast } from "@/lib/toast";
+import { useReservations } from "@/lib/useReservations";
 
 const TIME_SLOTS = ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "14:00", "14:30", "15:00", "15:30"];
 
@@ -21,6 +22,7 @@ export function ReservationModal({
   const [accessibility, setAccessibility] = useState<string[]>([]);
   const [comments, setComments] = useState("");
   const [reservationCode, setReservationCode] = useState("");
+  const { add } = useReservations();
 
   if (!open) return null;
 
@@ -34,6 +36,14 @@ export function ReservationModal({
     const code = `PSL-${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 90) + 10}`;
     setReservationCode(code);
     setStep("confirm");
+    add({
+      code,
+      attractionName,
+      timeSlot,
+      people,
+      accessibility,
+      comments,
+    });
     showToast({
       tone: "success",
       title: "Turno reservado",

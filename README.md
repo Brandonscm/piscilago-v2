@@ -1,28 +1,33 @@
-# Piscilago 2.0 · v2.6 — Pro Edition
+# Piscilago 2.0 · v2.7 — Sustentación Edition
 
 Evolución oficial de la app Piscilago Colsubsidio. Desarrollado para sustentación de Maestría en Gerencia de Proyectos · Universidad EAN.
 
-## Cambios principales de v2.6
+## Cambios principales de v2.7 (gaps de sustentación cerrados)
 
-1. **Header persistente con marca Piscilago** en TODAS las pantallas. El logo nunca desaparece. BrandBar slim con logo + acceso a accesibilidad + notificaciones, sticky en la parte superior del scroll.
+1. **Mis Reservas en Pasaporte** — sección desplegable que muestra todas tus reservas con código PSL, contador hasta el turno, estado (pendiente/activa/completada), botón "Simular turno (demo)" para sustentación en vivo, y opción de cancelar.
 
-2. **Atracciones REALES del catálogo oficial Piscilago** — 20 atracciones con nombres y especificaciones verídicas extraídas del sitio piscilago.co: Pisciflash, Piscitornado, Anaconda, Onda Extrema, Megatobogán, Pisciclón, Piscihuracanes, Pisciloca, Piscigiros, Piscipulpo, Bosque de Lluvia, Parque Acuático Infantil, Piscina Las Fuentes, Piscina El Mirador, Piscina de Olas, Lago, Bicicletas Acuáticas, Piscitranvía, Restaurante Central, Área de Conservación.
+2. **Banner "Tu turno es ahora"** — banner verde persistente en la parte superior de TODAS las pantallas cuando hay una reserva activa. Pulsa con animación de campana, muestra atracción + código PSL, y enlaza directo al Pasaporte.
 
-3. **Datos verídicos por atracción** — altura mínima, longitud, caída en metros, velocidad km/h, duración, profundidad, capacidad de flotador, intensidad (baja/media/alta/extrema).
+3. **Dashboard de Operaciones avanzado** (`/admin`) — ahora incluye:
+   - Indicadores en tiempo real (espera promedio vs baseline, congestionadas, cobertura de hallazgos EAN)
+   - **Métricas proyectadas a 6 meses** con barras de progreso: tiempo de espera 28→17 min, NPS +37→+55, adopción 0→60%, atracciones con cero fila 27→15%
+   - **Matriz de Cobertura Hallazgo EAN → Solución App** con porcentaje por cada uno de los 8 hallazgos críticos
+   - Grid de atracciones operativas con código de color por congestión
 
-4. **Slide nuevo en el Onboarding: "Tu Pulsera NFC"** — explica el rol de la pulsera como reemplazo de ticket + billetera + cédula dentro del parque, su uso en lectores NFC para pagos, validaciones, insignias e hidratación, y la transparencia ética sobre los datos que captura.
+4. **Persistencia con localStorage** — las reservas sobreviven al refrescar la app.
 
-5. **6 slides totales en el onboarding**: Bienvenida, Filas Inteligentes, Huellas de Conservación, Hidratación y sombra, **Tu Pulsera NFC**, Asistente Piscilago. Auto-show la primera vez + accesible desde Accesibilidad → "Tour de la app".
+## Lo que se acumula de v2.6 / v2.5 / v2.0
 
-## Lo que se acumula de v2.5 (no se ha desplegado aún)
-
-- Modal de reserva con datos completos (personas, hora, accesibilidad, comentarios)
+- Header persistente con logo Piscilago en todas las pantallas
+- 20 atracciones reales del catálogo oficial piscilago.co
+- Onboarding 6 slides incluyendo Pulsera NFC y transparencia ética
+- Modal de reserva completo (personas/hora/accesibilidad/comentarios)
 - Wording "Disponible" + mensajes promocionales
-- "Datos en tiempo real" en vez de "Actualizado hace 0s"
-- Mensaje motivacional dinámico en Huellas según progreso
-- CO₂ ahorrado pequeño en Huellas
-- Mapa con reserva integrada + botón "Ver disponibles"
-- Filtro "Hidratación" con panel explicativo
+- "Datos en tiempo real"
+- Mapa con filtro Hidratación + Ver disponibles + reserva integrada
+- Huellas de Conservación con CO₂ y mensaje motivacional dinámico
+- Asistente IA conversacional 18 patrones
+- Accesibilidad WCAG (3 tamaños texto, contraste, motion)
 
 ## Rutas
 
@@ -30,35 +35,34 @@ Evolución oficial de la app Piscilago Colsubsidio. Desarrollado para sustentaci
 | -------------------- | ------------------------------------------------------- |
 | `/home`              | Inicio con logo Piscilago, mapa preview, smart layer    |
 | `/mapa`              | Smart map con hidratación + ver disponibles + reservar  |
-| `/filas`             | Filas Inteligentes priorizadas por IA · NUEVO           |
+| `/filas`             | Filas Inteligentes priorizadas por IA                   |
 | `/huellas`           | Insignias de Guardián + CO₂ + mensajes motivacionales   |
-| `/pasaporte`         | Identidad oficial + Pulsera NFC + saldo + grupo         |
+| `/pasaporte`         | Identidad oficial + Pulsera NFC + Mis Reservas          |
 | `/especies/[id]`     | Detalle de especie protegida                            |
 | `/panel/[especie]`   | Panel digital del sendero temático                      |
-| `/admin`             | Dashboard de operaciones                                |
+| `/admin`             | Dashboard de operaciones con métricas proyectadas       |
 
-## Ideas para próximas versiones (no implementadas aún)
+## Demo para sustentación
 
-- Páginas detalle por atracción `/atraccion/[id]` con specs completas
-- Estado abierto/cerrado según horario del parque
-- Indicador UV/Clima con sugerencia dinámica de hidratación
-- Grupo familiar en el mapa (ubicación de cada pulsera)
-- Timeline de visita ("hoy hiciste 3 atracciones · 4.200 pasos")
-- Sistema de logros ("Tu primera Anaconda", "5 atracciones en un día")
-- Modo offline con cache
-- Foto del recuerdo (descarga foto del tobogán al escanear pulsera)
+1. Ve a Filas o Mapa → reserva un turno en cualquier atracción
+2. Aparece código PSL-XXXX-XX y notificación de éxito
+3. Ve a Pasaporte → ahí está tu reserva en "Mis Reservas"
+4. Pulsa "Simular turno (demo)" → aparece banner verde "Tu turno es ahora" arriba en TODAS las pantallas
+5. Vuelve al Pasaporte → la reserva está en estado "activa"
+6. Pulsa "Validar" → la reserva pasa a completada y desaparece el banner
+7. Ve a `/admin` → ahí están las métricas proyectadas y cobertura
 
 ## Cómo actualizar el repositorio en GitHub
 
-1. Descomprime `piscilago-v2-v2.6.zip` → carpeta `piscilago-v2`
+1. Descomprime `piscilago-v2-v2.7.zip` → carpeta `piscilago-v2`
 2. **Abre la carpeta `piscilago-v2`** doble-click
 3. `github.com/Brandonscm/piscilago-v2` → **Add file** → **Upload files**
 4. Dentro de `piscilago-v2` selecciona TODO el contenido (Ctrl+A)
-5. Arrastra al área de upload. NO la carpeta entera, NI el .zip
-6. Commit message: `v2.6 - Pro Edition: header persistente + atracciones reales + NFC`
+5. Arrastra al área de upload
+6. Commit message: `v2.7 - Sustentación: Mis Reservas + Métricas + Banner turno`
 7. **Commit changes**
 8. Vercel auto-despliega en 2-3 minutos
 
 ## Stack técnico
 
-Next.js 14 · React 18 · TypeScript estricto · Tailwind CSS · lucide-react · Plus Jakarta Sans · LocalStorage para accesibilidad + onboarding · Datos basados en piscilago.co
+Next.js 14 · React 18 · TypeScript estricto · Tailwind CSS · lucide-react · Plus Jakarta Sans · LocalStorage para 4 features (a11y, onboarding, accesibilidad, reservas) · Datos basados en piscilago.co
