@@ -12,16 +12,17 @@ const TONES = {
 
 export function ToastContainer() {
   const toasts = useToastQueue();
+  if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-[90vw] max-w-sm">
+    <div className="absolute top-12 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-none w-[88%] max-w-sm">
       {toasts.map((t) => {
         const tone = TONES[t.tone];
         const Icon = tone.icon;
         return (
           <div
             key={t.id}
-            className={`bg-white rounded-2xl shadow-elevated p-3 flex items-start gap-2.5 animate-in slide-in-from-top duration-300 pointer-events-auto`}
+            className="bg-white rounded-2xl shadow-elevated p-3 flex items-start gap-2.5 animate-in slide-in-from-top duration-300 pointer-events-auto"
           >
             <div className={`w-8 h-8 rounded-lg ${tone.bg} ${tone.text} flex items-center justify-center shrink-0`}>
               <Icon size={16} strokeWidth={2.2} />

@@ -1,22 +1,73 @@
 "use client";
 
 import { useState } from "react";
-import { Settings, CreditCard, Receipt, Share2, Plus, MapPin, IdCard, MessageCircle, ChevronDown } from "lucide-react";
+import { Settings, CreditCard, Receipt, Share2, Plus, MapPin, IdCard, MessageCircle, ChevronDown, Lock, Pencil } from "lucide-react";
 import { showToast } from "@/lib/toast";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+
+const INITIAL_PHONE = "+57 310 772 0361";
+const INITIAL_DOC = "1.014.****.892";
 
 export default function PasaportePage() {
-  const [phone, setPhone] = useState("");
-  const [doc, setDoc] = useState("");
+  const [phone, setPhone] = useState(INITIAL_PHONE);
+  const [doc, setDoc] = useState(INITIAL_DOC);
   const [docType, setDocType] = useState("Cédula ciudadanía");
   const [loaded, setLoaded] = useState(true);
+
+  // Edit-mode states (false = read-only, true = editable)
+  const [phoneEditable, setPhoneEditable] = useState(false);
+  const [docEditable, setDocEditable] = useState(false);
+
+  // Confirm dialogs
+  const [confirmingField, setConfirmingField] = useState<"phone" | "doc" | "docType" | "save" | null>(null);
+  const [confirmingDocType, setConfirmingDocType] = useState(false);
+
+  const requestEdit = (field: "phone" | "doc") => setConfirmingField(field);
+
+  const handleConfirm = () => {
+    if (confirmingField === "phone") setPhoneEditable(true);
+    if (confirmingField === "doc") setDocEditable(true);
+    if (confirmingField === "docType") {
+      setDocType(docType === "Cédula ciudadanía" ? "Tarjeta de identidad" : "Cédula ciudadanía");
+      showToast({ tone: "success", title: "Tipo de documento actualizado" });
+    }
+    if (confirmingField === "save") {
+      setLoaded(true);
+      setPhoneEditable(false);
+      setDocEditable(false);
+      showToast({ tone: "success", title: "Pasaporte actualizado", message: "Sincronizado con tu pulsera NFC" });
+    }
+    setConfirmingField(null);
+  };
+
+  const confirmConfig = {
+    phone: {
+      title: "Editar WhatsApp",
+      message: `Vas a modificar el número de WhatsApp vinculado a tu pasaporte (actualmente ${phone}). Asegúrate de tener acceso al nuevo número porque ahí recibirás las confirmaciones de tu compra.`,
+      confirmLabel: "Sí, editar",
+    },
+    doc: {
+      title: "Editar documento",
+      message: `Vas a modificar el número de documento vinculado a tu pasaporte. Este dato es sensible y se usa para validar tu identidad en el parque.`,
+      confirmLabel: "Sí, editar",
+    },
+    docType: {
+      title: "Cambiar tipo de documento",
+      message: `Vas a cambiar el tipo de documento. Asegúrate de que coincida con el documento físico que vas a presentar en el parque.`,
+      confirmLabel: "Sí, cambiar",
+    },
+    save: {
+      title: "Actualizar pasaporte",
+      message: "Vas a guardar los cambios en tu pasaporte. La información quedará sincronizada con tu pulsera NFC y todos los servicios del parque.",
+      confirmLabel: "Confirmar y guardar",
+    },
+  };
 
   return (
     <div className="pb-6">
       <header className="flex items-center justify-between px-4 pt-3 pb-2">
         <div>
-          <p className="text-[10px] uppercase tracking-wider text-col-600 font-semibold">
-            Mi pasaporte
-          </p>
+          <p className="text-[10px] uppercase tracking-wider text-col-600 font-semibold">Mi pasaporte</p>
           <h1 className="text-lg font-semibold text-ink-900">Identidad digital</h1>
         </div>
         <button
@@ -34,9 +85,7 @@ export default function PasaportePage() {
         <div className="relative p-4 text-white">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[8px] uppercase tracking-wider text-white/85 font-semibold">
-                Pulsera Familia · NFC
-              </p>
+              <p className="text-[8px] uppercase tracking-wider text-white/85 font-semibold">Pulsera Familia · NFC</p>
               <p className="text-[14px] font-semibold mt-0.5">PSL · 4892 · A</p>
             </div>
             <span className="inline-flex items-center gap-1 text-[8px] bg-status-green/85 px-2 py-1 rounded-md font-bold uppercase tracking-wide">
@@ -69,9 +118,7 @@ export default function PasaportePage() {
 
           <div className="flex justify-between items-end">
             <div>
-              <p className="text-[8px] uppercase tracking-wider text-white/85 font-semibold">
-                Saldo en pulsera
-              </p>
+              <p className="text-[8px] uppercase tracking-wider text-white/85 font-semibold">Saldo en pulsera</p>
               <p className="text-[22px] font-bold leading-none mt-1">$ 45.200</p>
             </div>
             <div className="text-right text-[9px] text-white/85">
@@ -122,29 +169,38 @@ export default function PasaportePage() {
 
         <div className="space-y-2.5">
           <div>
-            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">
-              WhatsApp de compra
-            </label>
-            <div className="mt-1 flex items-center gap-2 bg-ink-50 rounded-xl px-3 py-2.5">
-              <MessageCircle size={14} className="text-status-green" strokeWidth={2} />
+            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">WhatsApp de compra</label>
+            <div className={`mt-1 flex items-center gap-2 rounded-xl px-3 py-2.5 ${phoneEditable ? "bg-white border border-col-400" : "bg-ink-50"}`}>
+              <MessageCircle size={14} className="text-status-green shrink-0" strokeWidth={2} />
               <input
                 type="tel"
-                value={phone || "+57 310 772 0361"}
+                value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                readOnly={!phoneEditable}
                 placeholder="Ingresa tu celular"
                 className="flex-1 bg-transparent text-[12px] text-ink-900 outline-none placeholder:text-ink-300"
               />
+              {!phoneEditable ? (
+                <button
+                  type="button"
+                  onClick={() => requestEdit("phone")}
+                  className="text-[10px] inline-flex items-center gap-0.5 text-col-600 font-semibold active:scale-95 transition-transform"
+                >
+                  <Pencil size={11} strokeWidth={2.2} />
+                  Editar
+                </button>
+              ) : (
+                <Lock size={12} className="text-status-green" strokeWidth={2.2} />
+              )}
             </div>
           </div>
 
           <div>
-            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">
-              Tipo de documento
-            </label>
+            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">Tipo de documento</label>
             <button
               type="button"
-              onClick={() => showToast({ tone: "info", title: "Selección", message: "Cambia entre Cédula, Tarjeta de identidad o Pasaporte" })}
-              className="mt-1 w-full flex items-center justify-between bg-ink-50 rounded-xl px-3 py-2.5"
+              onClick={() => setConfirmingField("docType")}
+              className="mt-1 w-full flex items-center justify-between bg-ink-50 rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform"
             >
               <span className="text-[12px] text-ink-900">{docType}</span>
               <ChevronDown size={14} className="text-ink-500" />
@@ -152,24 +208,34 @@ export default function PasaportePage() {
           </div>
 
           <div>
-            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">
-              Número de documento
-            </label>
-            <input
-              type="text"
-              value={doc || "1.014.****.892"}
-              onChange={(e) => setDoc(e.target.value)}
-              placeholder="Ingresa tu documento"
-              className="mt-1 w-full bg-ink-50 rounded-xl px-3 py-2.5 text-[12px] text-ink-900 outline-none placeholder:text-ink-300"
-            />
+            <label className="text-[9px] font-medium text-ink-500 uppercase tracking-wide">Número de documento</label>
+            <div className={`mt-1 flex items-center gap-2 rounded-xl px-3 py-2.5 ${docEditable ? "bg-white border border-col-400" : "bg-ink-50"}`}>
+              <input
+                type="text"
+                value={doc}
+                onChange={(e) => setDoc(e.target.value)}
+                readOnly={!docEditable}
+                placeholder="Ingresa tu documento"
+                className="flex-1 bg-transparent text-[12px] text-ink-900 outline-none placeholder:text-ink-300"
+              />
+              {!docEditable ? (
+                <button
+                  type="button"
+                  onClick={() => requestEdit("doc")}
+                  className="text-[10px] inline-flex items-center gap-0.5 text-col-600 font-semibold active:scale-95 transition-transform"
+                >
+                  <Pencil size={11} strokeWidth={2.2} />
+                  Editar
+                </button>
+              ) : (
+                <Lock size={12} className="text-status-green" strokeWidth={2.2} />
+              )}
+            </div>
           </div>
 
           <button
             type="button"
-            onClick={() => {
-              setLoaded(true);
-              showToast({ tone: "success", title: "Pasaporte actualizado", message: "Tu información quedó sincronizada con la pulsera NFC" });
-            }}
+            onClick={() => setConfirmingField("save")}
             className="w-full bg-ink-900 text-white rounded-xl py-3 text-[12px] font-semibold active:scale-[0.98] transition-transform"
           >
             {loaded ? "Actualizar pasaporte" : "Cargar pasaporte"}
@@ -209,6 +275,18 @@ export default function PasaportePage() {
           </div>
         </div>
       </div>
+
+      {confirmingField && (
+        <ConfirmDialog
+          open={!!confirmingField}
+          title={confirmConfig[confirmingField].title}
+          message={confirmConfig[confirmingField].message}
+          confirmLabel={confirmConfig[confirmingField].confirmLabel}
+          tone={confirmingField === "save" ? "default" : "warning"}
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirmingField(null)}
+        />
+      )}
     </div>
   );
 }

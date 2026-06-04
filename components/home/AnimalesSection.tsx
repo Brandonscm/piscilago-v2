@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, Shield } from "lucide-react";
 import { SPECIES } from "@/lib/species";
 import { useAutoCarousel } from "@/lib/useAutoCarousel";
+import { ThumbImage } from "@/components/common/ThumbImage";
 
 export function AnimalesSection() {
   const scrollRef = useAutoCarousel<HTMLDivElement>({ intervalMs: 5000 });
@@ -27,7 +28,12 @@ export function AnimalesSection() {
             className="shrink-0 w-[180px] bg-white rounded-2xl overflow-hidden shadow-card active:scale-[0.98] transition-transform"
           >
             <div className="relative h-[110px] bg-ink-100 overflow-hidden">
-              <img src={s.imageUrl} alt={s.name} className="w-full h-full object-cover" loading="lazy" />
+              <ThumbImage
+                src={s.imageUrl}
+                alt={s.name}
+                type="fauna"
+                className="w-full h-full object-cover"
+              />
               <div className="absolute top-2 left-2 inline-flex items-center gap-1 bg-wild-500 text-white px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wide">
                 <Shield size={8} strokeWidth={2.5} />
                 {s.conservationLabel}

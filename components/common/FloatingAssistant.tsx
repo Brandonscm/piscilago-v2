@@ -26,15 +26,13 @@ export function FloatingAssistant() {
 
   useEffect(() => {
     if (open && messages.length === 0) {
-      setMessages([
-        {
-          id: mkId(),
-          from: "assistant",
-          text: INITIAL_GREETING.text,
-          suggestions: INITIAL_GREETING.suggestions,
-          ts: Date.now(),
-        },
-      ]);
+      setMessages([{
+        id: mkId(),
+        from: "assistant",
+        text: INITIAL_GREETING.text,
+        suggestions: INITIAL_GREETING.suggestions,
+        ts: Date.now(),
+      }]);
     }
   }, [open, messages.length]);
 
@@ -47,23 +45,15 @@ export function FloatingAssistant() {
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
-
-    const userMsg: Message = { id: mkId(), from: "user", text: trimmed, ts: Date.now() };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages((prev) => [...prev, { id: mkId(), from: "user", text: trimmed, ts: Date.now() }]);
     setInput("");
     setTyping(true);
-
     setTimeout(() => {
       const r = respond(trimmed);
-      const reply: Message = {
-        id: mkId(),
-        from: "assistant",
-        text: r.text,
-        link: r.link,
-        suggestions: r.suggestions,
-        ts: Date.now(),
-      };
-      setMessages((prev) => [...prev, reply]);
+      setMessages((prev) => [...prev, {
+        id: mkId(), from: "assistant", text: r.text,
+        link: r.link, suggestions: r.suggestions, ts: Date.now(),
+      }]);
       setTyping(false);
     }, 700);
   };
@@ -71,24 +61,32 @@ export function FloatingAssistant() {
   return (
     <>
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed bottom-[76px] right-4 md:bottom-[80px] md:right-6 w-14 h-14 rounded-full shadow-hero z-30 flex items-center justify-center text-white active:scale-95 transition-transform"
-          style={{ background: "linear-gradient(135deg, #003478 0%, #C2185B 100%)" }}
-          aria-label="Abrir asistente Piscilago"
-        >
-          <Sparkles size={22} strokeWidth={2} />
-          <span className="absolute inset-0 rounded-full bg-wild-500 opacity-30 animate-ping" />
-        </button>
+        <div className="absolute bottom-[78px] right-4 z-30">
+          <button
+            onClick={() => setOpen(true)}
+            className="relative w-13 h-13 rounded-full shadow-hero flex items-center justify-center text-white active:scale-95 transition-transform"
+            style={{ background: "linear-gradient(135deg, #003478 0%, #C2185B 100%)", width: "52px", height: "52px" }}
+            aria-label="Abrir asistente Piscilago"
+          >
+            <Sparkles size={20} strokeWidth={2} />
+            <span className="absolute inset-0 rounded-full bg-wild-500 opacity-30 animate-ping" />
+          </button>
+          <span className="absolute -top-1 -left-1 bg-sun-400 text-ink-900 px-1.5 py-0.5 text-[7px] font-bold uppercase tracking-wider rounded-full shadow-card ring-2 ring-white">
+            Nuevo
+          </span>
+        </div>
       )}
 
       {open && (
         <>
           <div
-            className="fixed inset-0 bg-ink-900/50 z-40 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink-900/50 z-40 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
-          <div className="fixed bottom-0 left-0 right-0 md:bottom-6 md:right-6 md:left-auto md:w-[400px] md:max-h-[640px] md:rounded-3xl bg-white rounded-t-3xl shadow-elevated z-50 overflow-hidden flex flex-col" style={{ maxHeight: "85vh" }}>
+          <div
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-elevated z-50 overflow-hidden flex flex-col"
+            style={{ maxHeight: "82%" }}
+          >
             <header className="flex items-center justify-between px-4 py-3 border-b border-ink-100 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div
@@ -114,23 +112,15 @@ export function FloatingAssistant() {
               </button>
             </header>
 
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-surface-50"
-            >
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-surface-50">
               {messages.map((m) => (
                 <div key={m.id} className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}>
                   <div className={`max-w-[80%] ${m.from === "user" ? "items-end" : "items-start"} flex flex-col gap-2`}>
-                    <div
-                      className={`px-3 py-2 rounded-2xl text-[12px] leading-relaxed ${
-                        m.from === "user"
-                          ? "bg-col-600 text-white rounded-tr-md"
-                          : "bg-white text-ink-900 rounded-tl-md shadow-card"
-                      }`}
-                    >
+                    <div className={`px-3 py-2 rounded-2xl text-[12px] leading-relaxed ${
+                      m.from === "user" ? "bg-col-600 text-white rounded-tr-md" : "bg-white text-ink-900 rounded-tl-md shadow-card"
+                    }`}>
                       {m.text}
                     </div>
-
                     {m.link && (
                       <Link
                         href={m.link.href}
@@ -141,7 +131,6 @@ export function FloatingAssistant() {
                         <ArrowRight size={12} strokeWidth={2.5} />
                       </Link>
                     )}
-
                     {m.suggestions && m.from === "assistant" && (
                       <div className="flex flex-wrap gap-1.5 mt-1">
                         {m.suggestions.map((s) => (
@@ -158,7 +147,6 @@ export function FloatingAssistant() {
                   </div>
                 </div>
               ))}
-
               {typing && (
                 <div className="flex justify-start">
                   <div className="bg-white rounded-2xl rounded-tl-md shadow-card px-3 py-2.5 flex gap-1">
@@ -172,10 +160,7 @@ export function FloatingAssistant() {
 
             <div className="px-3 py-3 border-t border-ink-100 bg-white shrink-0 safe-bottom">
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  send(input);
-                }}
+                onSubmit={(e) => { e.preventDefault(); send(input); }}
                 className="flex items-center gap-2"
               >
                 <input

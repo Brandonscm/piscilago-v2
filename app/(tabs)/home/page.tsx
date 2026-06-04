@@ -19,7 +19,7 @@ export default function HomePage() {
   const unlockedCount = insignias.filter((i) => i.unlocked).length;
 
   return (
-    <div className="pb-6">
+    <div className="pb-24">
       <AppHeader />
       <MapHeroPreview attractions={data} />
       <QuickActions />

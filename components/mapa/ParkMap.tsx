@@ -60,16 +60,9 @@ export function ParkMap({
         opacity="0.6"
       />
 
-      <text
-        x="280"
-        y="25"
-        textAnchor="middle"
-        fontSize="11"
-        fontWeight="500"
-        fill="#003478"
-      >
-        Piscilago Park · Mapa Inteligente
-      </text>
+      <rect x="180" y="120" width="65" height="50" rx="6" fill="#26C6DA"/>
+      <rect x="185" y="125" width="55" height="40" rx="3" fill="#80DEEA" opacity="0.6"/>
+      <path d="M192 130 L 235 165 M 198 130 L 235 158 M 205 130 L 235 150" stroke="#fff" strokeWidth="1.4" opacity="0.7"/>
 
       {attractions
         .filter((a) => a.hasCoolingZone)
