@@ -1,68 +1,62 @@
-# Piscilago 2.0 · v2.7 — Sustentación Edition
+# Piscilago 2.0 · v2.7.1 — Modal Portal Fix
 
-Evolución oficial de la app Piscilago Colsubsidio. Desarrollado para sustentación de Maestría en Gerencia de Proyectos · Universidad EAN.
+## 🔧 Hotfix v2.7.1
 
-## Cambios principales de v2.7 (gaps de sustentación cerrados)
+**Bug corregido**: Los modales (Reserva, Notificaciones, Asistente, Tour, Accesibilidad, Confirmar) aparecían cortados o desplazados cuando había scroll en la pantalla. Causa: estaban renderizados dentro del contenedor scrollable y heredaban su clipping.
 
-1. **Mis Reservas en Pasaporte** — sección desplegable que muestra todas tus reservas con código PSL, contador hasta el turno, estado (pendiente/activa/completada), botón "Simular turno (demo)" para sustentación en vivo, y opción de cancelar.
+**Solución**: Implementación de **React Portal** con un layer dedicado (`#phone-modal-root`) fuera del scroll del `<main>`. Ahora TODOS los modales aparecen perfectamente centrados sobre el phone shell sin importar el scroll position.
 
-2. **Banner "Tu turno es ahora"** — banner verde persistente en la parte superior de TODAS las pantallas cuando hay una reserva activa. Pulsa con animación de campana, muestra atracción + código PSL, y enlaza directo al Pasaporte.
+Archivos afectados:
+- `components/shell/PhoneShell.tsx` — agrega div target del portal
+- `components/common/PhonePortal.tsx` — helper nuevo con createPortal
+- `components/common/ReservationModal.tsx` — usa portal
+- `components/common/NotificationsPanel.tsx` — panel usa portal
+- `components/common/OnboardingGuide.tsx` — usa portal
+- `components/common/FloatingAssistant.tsx` — modal del asistente usa portal
+- `components/common/BrandBar.tsx` — panel accesibilidad usa portal
+- `components/common/ConfirmDialog.tsx` — usa portal
 
-3. **Dashboard de Operaciones avanzado** (`/admin`) — ahora incluye:
-   - Indicadores en tiempo real (espera promedio vs baseline, congestionadas, cobertura de hallazgos EAN)
-   - **Métricas proyectadas a 6 meses** con barras de progreso: tiempo de espera 28→17 min, NPS +37→+55, adopción 0→60%, atracciones con cero fila 27→15%
-   - **Matriz de Cobertura Hallazgo EAN → Solución App** con porcentaje por cada uno de los 8 hallazgos críticos
-   - Grid de atracciones operativas con código de color por congestión
+## Lo que se acumula de v2.7
 
-4. **Persistencia con localStorage** — las reservas sobreviven al refrescar la app.
+- Mis Reservas en Pasaporte con código PSL, countdown y simulación de turno
+- Banner "Tu turno es ahora" persistente en todas las pantallas
+- Dashboard `/admin` con métricas proyectadas y matriz Hallazgo EAN → Solución
 
-## Lo que se acumula de v2.6 / v2.5 / v2.0
+## Lo que se acumula de v2.6
 
-- Header persistente con logo Piscilago en todas las pantallas
-- 20 atracciones reales del catálogo oficial piscilago.co
+- Header persistente con logo Piscilago en TODAS las pantallas
+- 20 atracciones REALES del catálogo oficial piscilago.co
 - Onboarding 6 slides incluyendo Pulsera NFC y transparencia ética
-- Modal de reserva completo (personas/hora/accesibilidad/comentarios)
+
+## Lo que se acumula de v2.5
+
+- Modal de reserva con formulario completo (personas/hora/accesibilidad/comentarios)
 - Wording "Disponible" + mensajes promocionales
-- "Datos en tiempo real"
 - Mapa con filtro Hidratación + Ver disponibles + reserva integrada
-- Huellas de Conservación con CO₂ y mensaje motivacional dinámico
-- Asistente IA conversacional 18 patrones
-- Accesibilidad WCAG (3 tamaños texto, contraste, motion)
+- Huellas de Conservación con CO₂ ahorrado
 
-## Rutas
+## Demo end-to-end para sustentación
 
-| URL                  | Pantalla                                                |
-| -------------------- | ------------------------------------------------------- |
-| `/home`              | Inicio con logo Piscilago, mapa preview, smart layer    |
-| `/mapa`              | Smart map con hidratación + ver disponibles + reservar  |
-| `/filas`             | Filas Inteligentes priorizadas por IA                   |
-| `/huellas`           | Insignias de Guardián + CO₂ + mensajes motivacionales   |
-| `/pasaporte`         | Identidad oficial + Pulsera NFC + Mis Reservas          |
-| `/especies/[id]`     | Detalle de especie protegida                            |
-| `/panel/[especie]`   | Panel digital del sendero temático                      |
-| `/admin`             | Dashboard de operaciones con métricas proyectadas       |
+1. **Filas**: tap "Reservar turno" en cualquier atracción → modal completo aparece **CENTRADO Y BIEN POSICIONADO** sin importar el scroll
+2. Confirma reserva → código PSL generado
+3. **Pasaporte**: scroll a "Mis Reservas" → ahí está tu turno
+4. Pulsa "Simular turno (demo)" → banner verde aparece arriba en TODAS las pantallas
+5. Vuelve al Pasaporte → "Validar" → reserva completada
+6. Tap campanita (notificaciones) → panel desliza desde arriba **SIN CORTARSE**
+7. Tap asistente IA → panel desliza desde abajo **PERFECTAMENTE**
+8. Ve a `/admin` → métricas proyectadas + matriz de cobertura
 
-## Demo para sustentación
+## Cómo actualizar GitHub
 
-1. Ve a Filas o Mapa → reserva un turno en cualquier atracción
-2. Aparece código PSL-XXXX-XX y notificación de éxito
-3. Ve a Pasaporte → ahí está tu reserva en "Mis Reservas"
-4. Pulsa "Simular turno (demo)" → aparece banner verde "Tu turno es ahora" arriba en TODAS las pantallas
-5. Vuelve al Pasaporte → la reserva está en estado "activa"
-6. Pulsa "Validar" → la reserva pasa a completada y desaparece el banner
-7. Ve a `/admin` → ahí están las métricas proyectadas y cobertura
-
-## Cómo actualizar el repositorio en GitHub
-
-1. Descomprime `piscilago-v2-v2.7.zip` → carpeta `piscilago-v2`
+1. Descomprime `piscilago-v2-v2.7.1.zip` → carpeta `piscilago-v2`
 2. **Abre la carpeta `piscilago-v2`** doble-click
 3. `github.com/Brandonscm/piscilago-v2` → **Add file** → **Upload files**
-4. Dentro de `piscilago-v2` selecciona TODO el contenido (Ctrl+A)
+4. Selecciona TODO el contenido (Ctrl+A)
 5. Arrastra al área de upload
-6. Commit message: `v2.7 - Sustentación: Mis Reservas + Métricas + Banner turno`
+6. Commit message: `v2.7.1 - Hotfix: Modal Portal para fix de scroll`
 7. **Commit changes**
 8. Vercel auto-despliega en 2-3 minutos
 
 ## Stack técnico
 
-Next.js 14 · React 18 · TypeScript estricto · Tailwind CSS · lucide-react · Plus Jakarta Sans · LocalStorage para 4 features (a11y, onboarding, accesibilidad, reservas) · Datos basados en piscilago.co
+Next.js 14 · React 18 · TypeScript estricto · Tailwind CSS · React Portal · lucide-react · Plus Jakarta Sans · LocalStorage · Datos basados en piscilago.co

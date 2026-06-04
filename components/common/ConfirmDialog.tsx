@@ -2,6 +2,7 @@
 
 import { AlertCircle, Check, X } from "lucide-react";
 import { ReactNode } from "react";
+import { PhonePortal } from "./PhonePortal";
 
 export function ConfirmDialog({
   open,
@@ -33,7 +34,7 @@ export function ConfirmDialog({
   }[tone];
 
   return (
-    <>
+    <PhonePortal>
       <div
         className="absolute inset-0 bg-ink-900/60 z-[60] backdrop-blur-sm"
         onClick={onCancel}
@@ -64,6 +65,6 @@ export function ConfirmDialog({
           </button>
         </div>
       </div>
-    </>
+    </PhonePortal>
   );
 }

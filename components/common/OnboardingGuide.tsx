@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronRight, X, Sparkles, Award, Clock, MapPin, Accessibility, MessageSquare, IdCard } from "lucide-react";
 import { useOnboarding } from "@/lib/useOnboarding";
+import { PhonePortal } from "./PhonePortal";
 
 interface Slide {
   icon: typeof Sparkles;
@@ -102,7 +103,7 @@ export function OnboardingGuide({ forceOpen = false, onClose }: { forceOpen?: bo
   const isLast = slide === SLIDES.length - 1;
 
   return (
-    <>
+    <PhonePortal>
       <div
         className="absolute inset-0 bg-ink-900/70 z-[60] backdrop-blur-sm"
         onClick={close}
@@ -165,6 +166,6 @@ export function OnboardingGuide({ forceOpen = false, onClose }: { forceOpen?: bo
           )}
         </div>
       </div>
-    </>
+    </PhonePortal>
   );
 }

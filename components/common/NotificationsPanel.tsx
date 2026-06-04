@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Bell, X, Clock, Sparkles, Award, ArrowRight, Check } from "lucide-react";
+import { PhonePortal } from "./PhonePortal";
 
 interface Notification {
   id: string;
@@ -71,7 +72,7 @@ export function NotificationsPanel() {
       </button>
 
       {open && (
-        <>
+        <PhonePortal>
           <div
             className="absolute inset-0 bg-ink-900/50 z-40 backdrop-blur-sm"
             onClick={() => setOpen(false)}
@@ -167,7 +168,7 @@ export function NotificationsPanel() {
               </div>
             )}
           </div>
-        </>
+        </PhonePortal>
       )}
     </>
   );

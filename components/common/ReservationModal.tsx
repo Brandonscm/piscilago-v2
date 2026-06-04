@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X, Users, Clock, Accessibility, MessageSquare, Check, CalendarCheck, Plus, Minus } from "lucide-react";
 import { showToast } from "@/lib/toast";
 import { useReservations } from "@/lib/useReservations";
+import { PhonePortal } from "./PhonePortal";
 
 const TIME_SLOTS = ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "14:00", "14:30", "15:00", "15:30"];
 
@@ -58,7 +59,7 @@ export function ReservationModal({
   };
 
   return (
-    <>
+    <PhonePortal>
       <div
         className="absolute inset-0 bg-ink-900/60 z-[60] backdrop-blur-sm"
         onClick={close}
@@ -232,6 +233,6 @@ export function ReservationModal({
           </div>
         )}
       </div>
-    </>
+    </PhonePortal>
   );
 }

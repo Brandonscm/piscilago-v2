@@ -10,6 +10,8 @@ export function PhoneShell({ children }: { children: ReactNode }) {
         <div className="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 w-[90px] h-[24px] bg-black rounded-2xl z-20" />
         <div className="min-h-screen md:min-h-0 md:h-[820px] md:rounded-[32px] md:overflow-hidden bg-surface-50 relative flex flex-col">
           {children}
+          {/* Portal target - sits as absolute overlay over the entire phone, outside of scroll */}
+          <div id="phone-modal-root" className="absolute inset-0 z-[100] pointer-events-none" />
         </div>
       </div>
     </div>

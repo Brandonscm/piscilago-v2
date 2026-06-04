@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Sparkles, X, Send, ArrowRight } from "lucide-react";
 import { respond, INITIAL_GREETING, type AssistantResponse } from "@/lib/assistant";
+import { PhonePortal } from "./PhonePortal";
 
 interface Message {
   id: string;
@@ -78,7 +79,7 @@ export function FloatingAssistant() {
       )}
 
       {open && (
-        <>
+        <PhonePortal>
           <div
             className="absolute inset-0 bg-ink-900/50 z-40 backdrop-blur-sm"
             onClick={() => setOpen(false)}
@@ -183,7 +184,7 @@ export function FloatingAssistant() {
               </form>
             </div>
           </div>
-        </>
+        </PhonePortal>
       )}
     </>
   );

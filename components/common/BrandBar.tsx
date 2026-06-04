@@ -5,6 +5,7 @@ import { Accessibility, BookOpen, Type, Contrast, Sparkles, X, Check } from "luc
 import { NotificationsPanel } from "./NotificationsPanel";
 import { NewBadge } from "./NewBadge";
 import { OnboardingGuide } from "./OnboardingGuide";
+import { PhonePortal } from "./PhonePortal";
 import { useA11y, type TextSize } from "@/lib/useA11y";
 import { showToast } from "@/lib/toast";
 
@@ -46,7 +47,7 @@ export function BrandBar() {
       </div>
 
       {a11yOpen && (
-        <>
+        <PhonePortal>
           <div className="absolute inset-0 bg-ink-900/50 z-40" onClick={() => setA11yOpen(false)} />
           <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-elevated z-50 overflow-hidden" style={{ maxHeight: "85%" }}>
             <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-ink-100">
@@ -166,7 +167,7 @@ export function BrandBar() {
             </div>
             <div className="h-6 safe-bottom" />
           </div>
-        </>
+        </PhonePortal>
       )}
 
       {tourOpen && <OnboardingGuide forceOpen onClose={() => setTourOpen(false)} />}
