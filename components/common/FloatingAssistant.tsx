@@ -61,17 +61,17 @@ export function FloatingAssistant() {
   return (
     <>
       {!open && (
-        <div className="absolute bottom-[78px] right-4 z-30">
+        <div className="absolute bottom-[80px] right-3 z-30">
           <button
             onClick={() => setOpen(true)}
-            className="relative w-13 h-13 rounded-full shadow-hero flex items-center justify-center text-white active:scale-95 transition-transform"
-            style={{ background: "linear-gradient(135deg, #003478 0%, #C2185B 100%)", width: "52px", height: "52px" }}
+            className="relative rounded-full shadow-hero flex items-center justify-center text-white active:scale-95 transition-transform"
+            style={{ background: "linear-gradient(135deg, #003478 0%, #C2185B 100%)", width: "44px", height: "44px" }}
             aria-label="Abrir asistente Piscilago"
           >
-            <Sparkles size={20} strokeWidth={2} />
-            <span className="absolute inset-0 rounded-full bg-wild-500 opacity-30 animate-ping" />
+            <Sparkles size={17} strokeWidth={2.2} />
+            <span className="absolute inset-0 rounded-full bg-wild-500 opacity-25 animate-ping" />
           </button>
-          <span className="absolute -top-1 -left-1 bg-sun-400 text-ink-900 px-1.5 py-0.5 text-[7px] font-bold uppercase tracking-wider rounded-full shadow-card ring-2 ring-white">
+          <span className="absolute -top-1 -left-2 bg-sun-400 text-ink-900 px-1.5 py-0.5 text-[7px] font-bold uppercase tracking-wider rounded-full shadow-card ring-2 ring-white">
             Nuevo
           </span>
         </div>

@@ -1,11 +1,11 @@
 "use client";
 
-import { AppHeader } from "@/components/common/AppHeader";
 import { MapHeroPreview } from "@/components/home/MapHeroPreview";
 import { QuickActions } from "@/components/home/QuickActions";
 import { SmartLayer } from "@/components/home/SmartLayer";
 import { AtraccionesSection } from "@/components/home/AtraccionesSection";
 import { AnimalesSection } from "@/components/home/AnimalesSection";
+import { PiscilagoLogo } from "@/components/common/PiscilagoLogo";
 import { useLiveData } from "@/lib/useLiveData";
 import { useSteps } from "@/lib/useSteps";
 import { useInsignias } from "@/lib/useInsignias";
@@ -20,7 +20,9 @@ export default function HomePage() {
 
   return (
     <div className="pb-24">
-      <AppHeader />
+      <div className="px-4 pt-3 pb-1">
+        <PiscilagoLogo />
+      </div>
       <MapHeroPreview attractions={data} />
       <QuickActions />
       <SmartLayer

@@ -1,12 +1,16 @@
 "use client";
 
-import { Clock, Users, TrendingUp, TrendingDown, Sparkles, RefreshCw, CalendarCheck } from "lucide-react";
+import { useState } from "react";
+import { Users, TrendingUp, TrendingDown, Sparkles, RefreshCw, CalendarCheck, Zap } from "lucide-react";
 import { useLiveData } from "@/lib/useLiveData";
 import { recommend, aiBannerFor } from "@/lib/recommender";
 import { showToast } from "@/lib/toast";
+import { ReservationModal } from "@/components/common/ReservationModal";
 
 export default function FilasPage() {
   const { data, forceRefresh, lastUpdate } = useLiveData(30000);
+  const [reserving, setReserving] = useState<{ open: boolean; name: string }>({ open: false, name: "" });
+
   const recommended = recommend(data, null, { limit: 3 }).map((r) => r.attraction.id);
 
   const ordered = [...data]
@@ -22,14 +26,19 @@ export default function FilasPage() {
   const banner = aiBannerFor(data);
 
   return (
-    <div className="pb-6">
-      <header className="flex items-center justify-between px-4 pt-3 pb-2">
+    <div className="pb-24">
+      <header className="flex items-center justify-between px-4 pt-2 pb-2">
         <div>
           <p className="text-[10px] uppercase tracking-wider text-col-600 font-semibold">
             Smart Queues · {ordered.length} atracciones
           </p>
           <h1 className="text-lg font-semibold text-ink-900">Filas Inteligentes</h1>
-          <p className="text-[9px] text-ink-500 mt-0.5">Actualizado hace {secondsAgo}s</p>
+          <div className="inline-flex items-center gap-1 mt-1 bg-aqua-50 px-2 py-0.5 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse" />
+            <p className="text-[9px] text-aqua-800 font-semibold">
+              {secondsAgo < 5 ? "Datos en tiempo real" : `Sincronizado hace ${secondsAgo}s`}
+            </p>
+          </div>
         </div>
         <button
           onClick={() => {
@@ -59,73 +68,95 @@ export default function FilasPage() {
                          a.congestion === "medium" ? "border-l-status-yellow" : "border-l-status-green";
           const tagBg = a.congestion === "high" ? "bg-status-red-soft text-status-red" :
                         a.congestion === "medium" ? "bg-status-yellow-soft text-status-yellow" :
-                        "bg-status-green-soft text-status-green";
-          const tagText = a.congestion === "high" ? "Congestión" :
-                          a.congestion === "medium" ? "Moderada" :
-                          a.waitMin === 0 ? "Libre" : "Fila corta";
+                        a.waitMin === 0 ? "bg-status-green text-white" : "bg-status-green-soft text-status-green";
+          const tagText = a.congestion === "high" ? "Congestión alta" :
+                          a.congestion === "medium" ? "Espera moderada" :
+                          a.waitMin === 0 ? "¡Disponible ahora!" : "Pocas filas";
+          const promotional = a.congestion === "low" && a.waitMin === 0 ? "No te la pierdas" :
+                              a.congestion === "low" ? "Aprovecha ahora" :
+                              a.congestion === "high" ? "Busca alternativa" : null;
           const capColor = a.congestion === "high" ? "bg-status-red" :
                            a.congestion === "medium" ? "bg-status-yellow" : "bg-status-green";
 
           return (
-            <button
+            <div
               key={a.id}
-              onClick={() => {
-                if (a.hasReservation) {
-                  showToast({ tone: "success", title: "Turno reservado", message: `Tu lugar en ${a.name} está guardado` });
-                } else if (a.congestion === "high") {
-                  showToast({ tone: "warning", title: "Atracción congestionada", message: "Te sugerimos buscar alternativa cercana" });
-                } else {
-                  showToast({ tone: "info", title: a.name, message: `${a.waitMin} min de espera · ${a.occupancyPct}% de aforo` });
-                }
-              }}
-              className={`w-full bg-white rounded-2xl p-3 border-l-[3px] ${stripe} shadow-card flex items-center gap-2.5 text-left active:scale-[0.99] transition-transform`}
+              className={`w-full bg-white rounded-2xl p-3 border-l-[3px] ${stripe} shadow-card`}
             >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <p className="text-[12px] font-semibold text-ink-900 leading-tight">{a.name}</p>
-                  {isRec && (
-                    <span className="inline-flex items-center gap-0.5 text-[8px] font-bold bg-aqua-50 text-aqua-700 px-1.5 py-0.5 rounded uppercase">
-                      <Sparkles size={8} strokeWidth={2.5} />
-                      IA
+              <div className="flex items-center gap-2.5">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <p className="text-[12px] font-semibold text-ink-900 leading-tight">{a.name}</p>
+                    {isRec && (
+                      <span className="inline-flex items-center gap-0.5 text-[8px] font-bold bg-aqua-50 text-aqua-700 px-1.5 py-0.5 rounded uppercase">
+                        <Sparkles size={8} strokeWidth={2.5} />
+                        IA
+                      </span>
+                    )}
+                    {a.hasReservation && (
+                      <span className="inline-flex items-center gap-0.5 text-[8px] font-bold bg-sun-50 text-sun-700 px-1.5 py-0.5 rounded uppercase">
+                        <CalendarCheck size={8} strokeWidth={2.5} />
+                        Reserva
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2.5 text-[9px] text-ink-500 mt-0.5">
+                    <span className="inline-flex items-center gap-0.5">
+                      <Users size={9} strokeWidth={2} />
+                      {a.occupancyPct}%
                     </span>
-                  )}
-                  {a.hasReservation && (
-                    <span className="inline-flex items-center gap-0.5 text-[8px] font-bold bg-sun-50 text-sun-700 px-1.5 py-0.5 rounded uppercase">
-                      <CalendarCheck size={8} strokeWidth={2.5} />
-                      Reserva
+                    <span className="inline-flex items-center gap-0.5">
+                      {a.trend === "up" ? (
+                        <TrendingUp size={9} strokeWidth={2} className="text-status-red" />
+                      ) : a.trend === "down" ? (
+                        <TrendingDown size={9} strokeWidth={2} className="text-status-green" />
+                      ) : null}
+                      zona {a.zone}
                     </span>
-                  )}
+                  </div>
+                  <div className="h-1 bg-ink-100 rounded-full mt-1.5 overflow-hidden">
+                    <div className={`h-full ${capColor} rounded-full transition-all duration-700`} style={{ width: `${a.occupancyPct}%` }} />
+                  </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-[9px] text-ink-500 mt-0.5">
-                  <span className="inline-flex items-center gap-0.5">
-                    <Users size={9} strokeWidth={2} />
-                    {a.occupancyPct}%
+                <div className="text-right shrink-0">
+                  <p className="text-[16px] font-semibold text-ink-900 leading-none">
+                    {a.waitMin}<span className="text-[8px] font-normal text-ink-500 ml-0.5">min</span>
+                  </p>
+                  <span className={`inline-block mt-1 text-[8px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide ${tagBg}`}>
+                    {tagText}
                   </span>
-                  <span className="inline-flex items-center gap-0.5">
-                    {a.trend === "up" ? (
-                      <TrendingUp size={9} strokeWidth={2} className="text-status-red" />
-                    ) : a.trend === "down" ? (
-                      <TrendingDown size={9} strokeWidth={2} className="text-status-green" />
-                    ) : null}
-                    zona {a.zone}
-                  </span>
-                </div>
-                <div className="h-1 bg-ink-100 rounded-full mt-1.5 overflow-hidden">
-                  <div className={`h-full ${capColor} rounded-full transition-all duration-700`} style={{ width: `${a.occupancyPct}%` }} />
                 </div>
               </div>
-              <div className="text-right shrink-0">
-                <p className="text-[16px] font-semibold text-ink-900 leading-none">
-                  {a.waitMin}<span className="text-[8px] font-normal text-ink-500 ml-0.5">min</span>
-                </p>
-                <span className={`inline-block mt-1 text-[8px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide ${tagBg}`}>
-                  {tagText}
-                </span>
-              </div>
-            </button>
+
+              {(promotional || a.congestion !== "high") && (
+                <div className="mt-2.5 pt-2.5 border-t border-ink-100 flex items-center justify-between gap-2">
+                  {promotional && (
+                    <div className="inline-flex items-center gap-1 text-[10px] text-status-green font-semibold">
+                      <Zap size={10} strokeWidth={2.5} />
+                      {promotional}
+                    </div>
+                  )}
+                  {a.congestion !== "high" && (
+                    <button
+                      onClick={() => setReserving({ open: true, name: a.name })}
+                      className="ml-auto inline-flex items-center gap-1 bg-col-600 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-semibold active:scale-95 transition-transform"
+                    >
+                      <CalendarCheck size={11} strokeWidth={2.5} />
+                      Reservar turno
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           );
         })}
       </div>
+
+      <ReservationModal
+        open={reserving.open}
+        attractionName={reserving.name}
+        onClose={() => setReserving({ open: false, name: "" })}
+      />
     </div>
   );
 }

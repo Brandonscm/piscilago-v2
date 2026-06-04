@@ -65,7 +65,7 @@ export default function PasaportePage() {
 
   return (
     <div className="pb-6">
-      <header className="flex items-center justify-between px-4 pt-3 pb-2">
+      <header className="flex items-center justify-between px-4 pt-2 pb-2">
         <div>
           <p className="text-[10px] uppercase tracking-wider text-col-600 font-semibold">Mi pasaporte</p>
           <h1 className="text-lg font-semibold text-ink-900">Identidad digital</h1>

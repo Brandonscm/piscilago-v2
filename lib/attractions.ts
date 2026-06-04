@@ -1,346 +1,67 @@
-export type AttractionType =
-  | "tobogan"
-  | "piscina"
-  | "rio"
-  | "atraccion-familiar"
-  | "zona-niños"
-  | "show"
-  | "servicio";
+export type AttractionType = "tobogan" | "piscina" | "rio" | "infantil" | "lago" | "servicio" | "conservacion";
+export type Zone = "norte" | "sur" | "centro" | "este" | "oeste";
 
-export type CongestionLevel = "low" | "medium" | "high";
+export interface AttractionSpec {
+  alturaMin?: number;
+  duracionSeg?: number;
+  velocidadKmh?: number;
+  capacidad?: number;
+  profundidadMin?: number;
+  profundidadMax?: number;
+  longitudM?: number;
+  caidaM?: number;
+}
 
 export interface Attraction {
   id: string;
   name: string;
   type: AttractionType;
-  capacity: number;
-  baseOccupancy: number;
+  zone: Zone;
   baseWaitMin: number;
-  position: { x: number; y: number };
-  zone: "norte" | "centro" | "sur" | "este" | "oeste";
-  hasReservation: boolean;
+  baseOccupancy: number;
+  capacity: number;
   hasCoolingZone: boolean;
+  hasReservation: boolean;
+  intensity: "baja" | "media" | "alta" | "extrema";
   description: string;
-  criticalInAudit: boolean;
+  shortFact?: string;
+  spec: AttractionSpec;
+  imageUrl: string;
+  iconType: "tobogan" | "piscina" | "rio" | "servicio";
+  position: { x: number; y: number };
 }
 
 export const ATTRACTIONS: Attraction[] = [
-  {
-    id: "pisciflash",
-    name: "Pisciflash",
-    type: "tobogan",
-    capacity: 120,
-    baseOccupancy: 190,
-    baseWaitMin: 75,
-    position: { x: 245, y: 145 },
-    zone: "centro",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tobogán de alta velocidad, doble fila identificada",
-    criticalInAudit: true,
-  },
-  {
-    id: "piscitornado",
-    name: "Piscitornado",
-    type: "tobogan",
-    capacity: 80,
-    baseOccupancy: 120,
-    baseWaitMin: 60,
-    position: { x: 175, y: 105 },
-    zone: "norte",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tobogán tornado, fila sin sombrío",
-    criticalInAudit: true,
-  },
-  {
-    id: "anaconda",
-    name: "Anaconda",
-    type: "tobogan",
-    capacity: 60,
-    baseOccupancy: 70,
-    baseWaitMin: 45,
-    position: { x: 380, y: 165 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tobogán de flotadores, atascos frecuentes",
-    criticalInAudit: true,
-  },
-  {
-    id: "onda-extrema",
-    name: "Onda Extrema",
-    type: "tobogan",
-    capacity: 60,
-    baseOccupancy: 65,
-    baseWaitMin: 40,
-    position: { x: 425, y: 215 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tobogán extremo, reposición lenta de flotadores",
-    criticalInAudit: true,
-  },
-  {
-    id: "megatobogan",
-    name: "Megatobogán",
-    type: "tobogan",
-    capacity: 100,
-    baseOccupancy: 75,
-    baseWaitMin: 28,
-    position: { x: 95, y: 195 },
-    zone: "oeste",
-    hasReservation: true,
-    hasCoolingZone: true,
-    description: "Tobogán emblema con reserva digital activa",
-    criticalInAudit: false,
-  },
-  {
-    id: "pisciquantum",
-    name: "Pisciquantum",
-    type: "atraccion-familiar",
-    capacity: 80,
-    baseOccupancy: 32,
-    baseWaitMin: 8,
-    position: { x: 195, y: 285 },
-    zone: "sur",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Atracción familiar con baja afluencia",
-    criticalInAudit: false,
-  },
-  {
-    id: "rio-lento",
-    name: "Río Lento del Sol",
-    type: "rio",
-    capacity: 200,
-    baseOccupancy: 90,
-    baseWaitMin: 4,
-    position: { x: 305, y: 260 },
-    zone: "sur",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Río de relajación, alta capacidad disponible",
-    criticalInAudit: false,
-  },
-  {
-    id: "piscina-olas",
-    name: "Piscina de Olas",
-    type: "piscina",
-    capacity: 350,
-    baseOccupancy: 180,
-    baseWaitMin: 0,
-    position: { x: 285, y: 195 },
-    zone: "centro",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Piscina principal de olas artificiales",
-    criticalInAudit: false,
-  },
-  {
-    id: "piscina-familiar",
-    name: "Piscina Familiar",
-    type: "piscina",
-    capacity: 280,
-    baseOccupancy: 95,
-    baseWaitMin: 0,
-    position: { x: 415, y: 285 },
-    zone: "sur",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Piscina para familias con niños pequeños",
-    criticalInAudit: false,
-  },
-  {
-    id: "kamikaze",
-    name: "Kamikaze",
-    type: "tobogan",
-    capacity: 50,
-    baseOccupancy: 38,
-    baseWaitMin: 22,
-    position: { x: 155, y: 65 },
-    zone: "norte",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tobogán de descenso libre",
-    criticalInAudit: false,
-  },
-  {
-    id: "rapidos",
-    name: "Rápidos",
-    type: "rio",
-    capacity: 120,
-    baseOccupancy: 65,
-    baseWaitMin: 12,
-    position: { x: 355, y: 95 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Recorrido por rápidos con flotador",
-    criticalInAudit: false,
-  },
-  {
-    id: "splash-kids",
-    name: "Splash Kids",
-    type: "zona-niños",
-    capacity: 150,
-    baseOccupancy: 60,
-    baseWaitMin: 0,
-    position: { x: 105, y: 295 },
-    zone: "oeste",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Zona de juegos acuáticos infantiles",
-    criticalInAudit: false,
-  },
-  {
-    id: "torre-aventura",
-    name: "Torre Aventura",
-    type: "tobogan",
-    capacity: 90,
-    baseOccupancy: 58,
-    baseWaitMin: 30,
-    position: { x: 215, y: 215 },
-    zone: "centro",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Complejo de toboganes con torre central",
-    criticalInAudit: false,
-  },
-  {
-    id: "burbujas",
-    name: "Burbujas Mágicas",
-    type: "zona-niños",
-    capacity: 80,
-    baseOccupancy: 25,
-    baseWaitMin: 0,
-    position: { x: 55, y: 250 },
-    zone: "oeste",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Atracción para niños con espuma y burbujas",
-    criticalInAudit: false,
-  },
-  {
-    id: "laguna-tropical",
-    name: "Laguna Tropical",
-    type: "piscina",
-    capacity: 200,
-    baseOccupancy: 80,
-    baseWaitMin: 0,
-    position: { x: 465, y: 145 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: true,
-    description: "Piscina con ambientación tropical",
-    criticalInAudit: false,
-  },
-  {
-    id: "spa-natural",
-    name: "Spa Natural",
-    type: "atraccion-familiar",
-    capacity: 40,
-    baseOccupancy: 12,
-    baseWaitMin: 0,
-    position: { x: 495, y: 245 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Zona de relajación con jacuzzis",
-    criticalInAudit: false,
-  },
-  {
-    id: "show-acuatico",
-    name: "Show Acuático",
-    type: "show",
-    capacity: 400,
-    baseOccupancy: 120,
-    baseWaitMin: 0,
-    position: { x: 255, y: 65 },
-    zone: "norte",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Show en piscina principal, 3 funciones diarias",
-    criticalInAudit: false,
-  },
-  {
-    id: "punto-conservacion",
-    name: "Área de Conservación",
-    type: "atraccion-familiar",
-    capacity: 60,
-    baseOccupancy: 18,
-    baseWaitMin: 0,
-    position: { x: 525, y: 195 },
-    zone: "este",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Recorrido educativo de fauna regional",
-    criticalInAudit: false,
-  },
-  {
-    id: "zona-comida-central",
-    name: "Plaza de Comidas",
-    type: "servicio",
-    capacity: 250,
-    baseOccupancy: 110,
-    baseWaitMin: 8,
-    position: { x: 305, y: 165 },
-    zone: "centro",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Zona principal de alimentos",
-    criticalInAudit: false,
-  },
-  {
-    id: "tienda-recuerdos",
-    name: "Tienda Recuerdos",
-    type: "servicio",
-    capacity: 60,
-    baseOccupancy: 22,
-    baseWaitMin: 0,
-    position: { x: 145, y: 175 },
-    zone: "oeste",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Tienda oficial Piscilago",
-    criticalInAudit: false,
-  },
-  {
-    id: "entrada-principal",
-    name: "Entrada Principal",
-    type: "servicio",
-    capacity: 500,
-    baseOccupancy: 80,
-    baseWaitMin: 6,
-    position: { x: 290, y: 335 },
-    zone: "sur",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Acceso principal con pulseras NFC",
-    criticalInAudit: false,
-  },
-  {
-    id: "punto-pulsera",
-    name: "Punto Recarga Pulsera",
-    type: "servicio",
-    capacity: 30,
-    baseOccupancy: 8,
-    baseWaitMin: 2,
-    position: { x: 355, y: 295 },
-    zone: "sur",
-    hasReservation: false,
-    hasCoolingZone: false,
-    description: "Recarga de saldo en pulsera NFC",
-    criticalInAudit: false,
-  },
+  { id: "pisciflash", name: "Pisciflash", type: "tobogan", zone: "centro", baseWaitMin: 75, baseOccupancy: 95, capacity: 120, hasCoolingZone: false, hasReservation: false, intensity: "extrema", description: "Supertobogán pro-racer de 4 carriles simultáneos, 100 metros de recorrido, 200 galones de agua por minuto, alcanzando 50 km/h desde 20 metros de altura.", shortFact: "El más rápido del parque", spec: { alturaMin: 130, velocidadKmh: 50, longitudM: 100, caidaM: 20, capacidad: 4 }, imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 280, y: 200 } },
+  { id: "piscitornado", name: "Piscitornado", type: "tobogan", zone: "este", baseWaitMin: 60, baseOccupancy: 88, capacity: 90, hasCoolingZone: false, hasReservation: false, intensity: "extrema", description: "Tobogán de derroche de adrenalina. En tan solo 4 segundos y a 40 km/h, caída de 12 metros hacia una piscina de 2.20m de profundidad.", shortFact: "Caída de 12m en 4 segundos", spec: { alturaMin: 130, duracionSeg: 4, velocidadKmh: 40, caidaM: 12, profundidadMax: 2.2 }, imageUrl: "https://images.unsplash.com/photo-1530841344095-502dd5b15909?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 440, y: 180 } },
+  { id: "onda-extrema", name: "Onda Extrema", type: "tobogan", zone: "centro", baseWaitMin: 55, baseOccupancy: 85, capacity: 80, hasCoolingZone: false, hasReservation: false, intensity: "extrema", description: "Imponentes muros curvos con tecnología que permite sentir gravedad cero por segundos, igual que los astronautas. Una de las únicas 8 atracciones de este tipo en el mundo.", shortFact: "Sensación de gravedad cero", spec: { alturaMin: 130, capacidad: 4 }, imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 240, y: 280 } },
+  { id: "anaconda", name: "Anaconda", type: "tobogan", zone: "sur", baseWaitMin: 40, baseOccupancy: 78, capacity: 100, hasCoolingZone: true, hasReservation: false, intensity: "alta", description: "Atracción acuática gigante que atraviesa el bosque seco tropical. Sus curvas inesperadas crean la sensación de deslizarse dentro de un río indomable. Flotador para 3 personas.", shortFact: "180m sobre flotador familiar", spec: { alturaMin: 110, longitudM: 180, capacidad: 4 }, imageUrl: "https://images.unsplash.com/photo-1604335078690-ce8a93d9d846?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 180, y: 580 } },
+  { id: "megatobogan", name: "Megatobogán", type: "tobogan", zone: "norte", baseWaitMin: 45, baseOccupancy: 80, capacity: 90, hasCoolingZone: false, hasReservation: true, intensity: "media", description: "El tobogán más largo del parque: 504 metros de longitud, 3 metros de ancho, con 27 curvas y 3 túneles. Diseñado para toda la familia con descensos amplios.", shortFact: "504m, el más largo del parque", spec: { alturaMin: 110, longitudM: 504, capacidad: 4 }, imageUrl: "https://images.unsplash.com/photo-1530841344095-502dd5b15909?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 320, y: 100 } },
+  { id: "pisciclon", name: "Pisciclón", type: "tobogan", zone: "oeste", baseWaitMin: 35, baseOccupancy: 72, capacity: 85, hasCoolingZone: false, hasReservation: false, intensity: "alta", description: "Dos toboganes idénticos de 96 metros con 3 caídas libres hasta la meta. Ideal para quienes buscan competir contra amigos o familia.", shortFact: "96m con 3 caídas libres", spec: { alturaMin: 120, longitudM: 96 }, imageUrl: "https://images.unsplash.com/photo-1530841344095-502dd5b15909?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 100, y: 380 } },
+  { id: "piscihuracanes", name: "Piscihuracanes", type: "tobogan", zone: "norte", baseWaitMin: 30, baseOccupancy: 70, capacity: 80, hasCoolingZone: false, hasReservation: false, intensity: "extrema", description: "Huracanes Tantrum: uno de los toboganes más altos de Colombia. 125 metros de recorrido, caída de 2 metros con ángulo de 45° para sentir la energía pura del agua.", shortFact: "Ángulo de caída 45°", spec: { alturaMin: 130, longitudM: 125, caidaM: 2 }, imageUrl: "https://images.unsplash.com/photo-1530841344095-502dd5b15909?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 420, y: 100 } },
+  { id: "pisciloca", name: "Pisciloca", type: "tobogan", zone: "centro", baseWaitMin: 25, baseOccupancy: 68, capacity: 60, hasCoolingZone: true, hasReservation: false, intensity: "media", description: "Atracción con barcas tipo tronquito estilo montaña rusa acuática. Capacidad de 4 pasajeros recorriendo curvas, alturas y caídas con agua.", shortFact: "Montaña rusa acuática familiar", spec: { capacidad: 4 }, imageUrl: "https://images.unsplash.com/photo-1564222576-d23eb29e2c70?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 360, y: 280 } },
+  { id: "piscigiros", name: "Piscigiros", type: "tobogan", zone: "este", baseWaitMin: 20, baseOccupancy: 65, capacity: 70, hasCoolingZone: false, hasReservation: false, intensity: "alta", description: "Tobogán con giros inesperados que crean la sensación de pérdida de equilibrio y velocidad. Diversión asegurada en cada curva.", spec: { alturaMin: 120 }, imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 480, y: 280 } },
+  { id: "piscipulpo", name: "Piscipulpo", type: "tobogan", zone: "sur", baseWaitMin: 18, baseOccupancy: 62, capacity: 65, hasCoolingZone: true, hasReservation: false, intensity: "media", description: "Atracción con forma de pulpo gigante con múltiples toboganes que salen de un mismo centro. Diversión paralela con distintos niveles.", spec: { alturaMin: 110 }, imageUrl: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&q=70&auto=format&fit=crop", iconType: "tobogan", position: { x: 240, y: 620 } },
+  { id: "bosque-lluvia", name: "Bosque de Lluvia", type: "rio", zone: "sur", baseWaitMin: 15, baseOccupancy: 60, capacity: 120, hasCoolingZone: true, hasReservation: false, intensity: "baja", description: "Atracción acuática familiar con 4 toboganes y una cascada de 12 metros que deja caer 1.000 litros de agua sobre ti. Plan ideal para todas las edades.", shortFact: "Cascada de 1.000 litros", spec: { caidaM: 12 }, imageUrl: "https://images.unsplash.com/photo-1535392432937-a27c36ec07b5?w=400&q=70&auto=format&fit=crop", iconType: "rio", position: { x: 120, y: 580 } },
+  { id: "parque-acuatico-infantil", name: "Parque Acuático Infantil", type: "infantil", zone: "centro", baseWaitMin: 5, baseOccupancy: 55, capacity: 150, hasCoolingZone: true, hasReservation: false, intensity: "baja", description: "Área diseñada especialmente para los más pequeños. Profundidad de 0.3m a 0.5m, juegos interactivos y vigilancia constante para que los niños disfruten con seguridad.", shortFact: "Profundidad máxima 0.5m", spec: { profundidadMin: 0.3, profundidadMax: 0.5 }, imageUrl: "https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?w=400&q=70&auto=format&fit=crop", iconType: "piscina", position: { x: 300, y: 460 } },
+  { id: "piscina-las-fuentes", name: "Piscina Las Fuentes", type: "piscina", zone: "centro", baseWaitMin: 0, baseOccupancy: 50, capacity: 300, hasCoolingZone: true, hasReservation: false, intensity: "baja", description: "Área de esparcimiento familiar con espacio para sillas, sombrillas y baños de sol. Profundidad de 0.90m a 1.70m.", spec: { profundidadMin: 0.9, profundidadMax: 1.7 }, imageUrl: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&q=70&auto=format&fit=crop", iconType: "piscina", position: { x: 280, y: 380 } },
+  { id: "piscina-el-mirador", name: "Piscina El Mirador", type: "piscina", zone: "norte", baseWaitMin: 0, baseOccupancy: 45, capacity: 250, hasCoolingZone: true, hasReservation: false, intensity: "baja", description: "Piscina con vista panorámica del bosque seco tropical. Ideal para relajarse mientras se disfruta del paisaje y la naturaleza.", spec: { profundidadMin: 0.9, profundidadMax: 1.5 }, imageUrl: "https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?w=400&q=70&auto=format&fit=crop", iconType: "piscina", position: { x: 380, y: 80 } },
+  { id: "piscina-olas", name: "Piscina de Olas", type: "piscina", zone: "centro", baseWaitMin: 8, baseOccupancy: 70, capacity: 400, hasCoolingZone: true, hasReservation: false, intensity: "media", description: "Piscina con olas artificiales programadas. Simula la experiencia de playa con seguridad y diversión para toda la familia.", spec: { profundidadMax: 1.8 }, imageUrl: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&q=70&auto=format&fit=crop", iconType: "piscina", position: { x: 200, y: 460 } },
+  { id: "lago", name: "Lago", type: "lago", zone: "este", baseWaitMin: 10, baseOccupancy: 40, capacity: 80, hasCoolingZone: false, hasReservation: false, intensity: "baja", description: "Paseos inolvidables en el lago central del parque. Una experiencia de tranquilidad rodeada de naturaleza.", spec: {}, imageUrl: "https://images.unsplash.com/photo-1605547569103-9c7c1bcec812?w=400&q=70&auto=format&fit=crop", iconType: "rio", position: { x: 460, y: 460 } },
+  { id: "bicicletas-acuaticas", name: "Bicicletas Acuáticas", type: "lago", zone: "este", baseWaitMin: 12, baseOccupancy: 45, capacity: 60, hasCoolingZone: false, hasReservation: false, intensity: "baja", description: "Pedalea sobre el lago en bicicletas acuáticas. Plan ideal en pareja o familia para disfrutar del paisaje a tu ritmo.", spec: { capacidad: 2 }, imageUrl: "https://images.unsplash.com/photo-1605547569103-9c7c1bcec812?w=400&q=70&auto=format&fit=crop", iconType: "rio", position: { x: 460, y: 520 } },
+  { id: "piscitranvia", name: "Piscitranvía", type: "lago", zone: "centro", baseWaitMin: 5, baseOccupancy: 30, capacity: 200, hasCoolingZone: false, hasReservation: false, intensity: "baja", description: "Recorrido por todo el parque en el tranvía oficial. Conecta las principales atracciones y descansas durante el trayecto.", spec: { capacidad: 40 }, imageUrl: "https://images.unsplash.com/photo-1572807762434-e0a96d75c2eb?w=400&q=70&auto=format&fit=crop", iconType: "servicio", position: { x: 200, y: 700 } },
+  { id: "restaurante-central", name: "Restaurante Central", type: "servicio", zone: "centro", baseWaitMin: 0, baseOccupancy: 35, capacity: 500, hasCoolingZone: false, hasReservation: false, intensity: "baja", description: "Restaurante principal con menú variado: carne, alitas BBQ, pollo, mojarra y opciones vegetarianas.", spec: {}, imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=70&auto=format&fit=crop", iconType: "servicio", position: { x: 280, y: 720 } },
+  { id: "area-conservacion", name: "Área de Conservación", type: "conservacion", zone: "norte", baseWaitMin: 0, baseOccupancy: 30, capacity: 200, hasCoolingZone: true, hasReservation: false, intensity: "baja", description: "Programa de conservación con 130 especies bajo cuidado profesional y más de 250 viviendo en libertad. Incluye senderos temáticos por especie con paneles digitales NFC.", shortFact: "130 especies protegidas", spec: {}, imageUrl: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&q=70&auto=format&fit=crop", iconType: "servicio", position: { x: 360, y: 580 } },
 ];
-
-export function getCongestion(occupancyPct: number, waitMin: number): CongestionLevel {
-  if (waitMin >= 45 || occupancyPct >= 85) return "high";
-  if (waitMin >= 15 || occupancyPct >= 60) return "medium";
-  return "low";
-}
 
 export function attractionById(id: string): Attraction | undefined {
   return ATTRACTIONS.find((a) => a.id === id);
+}
+
+export type CongestionLevel = "low" | "medium" | "high";
+
+export function getCongestion(occupancyPct: number, waitMin: number): CongestionLevel {
+  if (occupancyPct >= 85 || waitMin >= 45) return "high";
+  if (occupancyPct >= 65 || waitMin >= 20) return "medium";
+  return "low";
 }

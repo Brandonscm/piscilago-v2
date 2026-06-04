@@ -21,7 +21,7 @@ export default function HuellasPage() {
 
   return (
     <div className="pb-6">
-      <header className="flex items-center justify-between px-4 pt-3 pb-2">
+      <header className="flex items-center justify-between px-4 pt-2 pb-2">
         <div>
           <p className="text-[10px] uppercase tracking-wider text-wild-600 font-semibold">
             Huellas de Conservación
@@ -57,7 +57,9 @@ export default function HuellasPage() {
                 </p>
               </div>
               <p className="text-[28px] font-bold leading-none mt-1">{steps.toLocaleString("es-CO")}</p>
-              <p className="text-[9px] text-white/75 mt-0.5">de movilidad</p>
+              <p className="text-[9px] text-white/75 mt-0.5">
+                · {((steps / 1000) * 0.4).toFixed(1)} kg CO₂ evitados
+              </p>
             </div>
           </div>
 
@@ -70,6 +72,12 @@ export default function HuellasPage() {
               <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
                 <div className="h-full bg-sun-400 rounded-full transition-all duration-700" style={{ width: `${progressToNext}%` }} />
               </div>
+              <p className="text-[10px] text-sun-100 font-semibold mt-2 leading-tight">
+                {progressToNext > 80 ? "¡Ya casi! Estás a punto de desbloquear tu próximo descuento" :
+                 progressToNext > 50 ? "¡Vas excelente! Sigue caminando para tu próxima recompensa" :
+                 progressToNext > 25 ? "Buen ritmo. Cada paso suma a tu impacto" :
+                 "Comienza tu jornada — cada paso cuenta para la conservación"}
+              </p>
             </div>
           )}
         </div>

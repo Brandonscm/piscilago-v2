@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Accessibility, BookOpen } from "lucide-react";
-import { PiscilagoLogo } from "./PiscilagoLogo";
+import { Accessibility, BookOpen, Type, Contrast, Sparkles, X, Check } from "lucide-react";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { NewBadge } from "./NewBadge";
 import { OnboardingGuide } from "./OnboardingGuide";
 import { useA11y, type TextSize } from "@/lib/useA11y";
 import { showToast } from "@/lib/toast";
-import { Type, Contrast, Sparkles, X, Check } from "lucide-react";
 
 const SIZE_LABELS: Record<TextSize, string> = {
   normal: "Normal",
@@ -16,34 +14,41 @@ const SIZE_LABELS: Record<TextSize, string> = {
   extra: "Extra grande",
 };
 
-export function AppHeader() {
+export function BrandBar() {
   const [a11yOpen, setA11yOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
   const { settings, update } = useA11y();
 
   return (
     <>
-      <header className="flex items-center justify-between px-4 pt-3 pb-2">
-        <PiscilagoLogo />
+      <div className="flex items-center justify-between px-4 pt-2 pb-2 bg-white/85 backdrop-blur-md border-b border-ink-100 sticky top-0 z-20">
+        <div className="flex items-center gap-1.5">
+          <p className="text-[14px] font-bold tracking-tight text-col-700 leading-none">
+            Pisc<span className="text-sun-500 italic">i</span>lago
+          </p>
+          <span className="text-[8px] uppercase tracking-wider text-ink-300 font-semibold border-l border-ink-100 pl-1.5 ml-0.5">
+            Colsubsidio
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <div className="relative">
             <button
               onClick={() => setA11yOpen(true)}
-              className="w-10 h-10 rounded-full bg-white shadow-card flex items-center justify-center text-col-700 active:scale-95 transition-transform"
+              className="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-col-700 active:scale-95 transition-transform"
               aria-label="Opciones de accesibilidad"
             >
-              <Accessibility size={16} strokeWidth={2.2} />
+              <Accessibility size={15} strokeWidth={2.2} />
             </button>
             <NewBadge floating size="small" />
           </div>
           <NotificationsPanel />
         </div>
-      </header>
+      </div>
 
       {a11yOpen && (
         <>
           <div className="absolute inset-0 bg-ink-900/50 z-40" onClick={() => setA11yOpen(false)} />
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-elevated z-50 overflow-hidden" style={{ maxHeight: "82%" }}>
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-elevated z-50 overflow-hidden" style={{ maxHeight: "85%" }}>
             <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-ink-100">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-col-50 text-col-600 flex items-center justify-center">
