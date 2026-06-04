@@ -1,61 +1,63 @@
-# Piscilago 2.0 · v2.7.1 — Modal Portal Fix
+# Piscilago 2.0 · v2.8 — Detail + Logros + Timeline
 
-## 🔧 Hotfix v2.7.1
+## Cambios principales de v2.8
 
-**Bug corregido**: Los modales (Reserva, Notificaciones, Asistente, Tour, Accesibilidad, Confirmar) aparecían cortados o desplazados cuando había scroll en la pantalla. Causa: estaban renderizados dentro del contenedor scrollable y heredaban su clipping.
+### Hotfixes
+1. **Logo del BrandBar clickeable** → redirige a /home (UX estándar)
+2. **FAB del asistente reposicionado** — subido de `bottom-[80px]` a `bottom-[92px]` y removido el ping pulsante que se sobreponía con la BottomNav
+3. **ThumbImage con fallback espectacular** — gradient específico por tipo + emoji único por atracción (🐍 Anaconda, ⚡ Pisciflash, 🌪️ Piscitornado, 🌧️ Bosque de Lluvia, 🐙 Piscipulpo, etc.) + patrón SVG sutil. Ya no depende de URLs de Unsplash que no son las reales.
 
-**Solución**: Implementación de **React Portal** con un layer dedicado (`#phone-modal-root`) fuera del scroll del `<main>`. Ahora TODOS los modales aparecen perfectamente centrados sobre el phone shell sin importar el scroll position.
+### Features nuevas
 
-Archivos afectados:
-- `components/shell/PhoneShell.tsx` — agrega div target del portal
-- `components/common/PhonePortal.tsx` — helper nuevo con createPortal
-- `components/common/ReservationModal.tsx` — usa portal
-- `components/common/NotificationsPanel.tsx` — panel usa portal
-- `components/common/OnboardingGuide.tsx` — usa portal
-- `components/common/FloatingAssistant.tsx` — modal del asistente usa portal
-- `components/common/BrandBar.tsx` — panel accesibilidad usa portal
-- `components/common/ConfirmDialog.tsx` — usa portal
+4. **Páginas detalle por atracción** (`/atraccion/[id]`) con:
+   - Hero con imagen, intensidad y estado de congestión
+   - 3 stats grandes: espera, aforo, zona
+   - Descripción completa
+   - Especificaciones técnicas (altura mín, velocidad, longitud, caída, duración, capacidad, profundidad)
+   - Banner de hidratación cercana si aplica
+   - Alerta de congestión alta
+   - Botón "Reservar turno aquí" (deshabilitado si congestión alta)
+   - "Cerca de aquí · Zona X" con 3 atracciones de la misma zona
 
-## Lo que se acumula de v2.7
+5. **Sistema de Logros** (en Huellas)
+   - 10 logros definidos: Bienvenido, Primera Reserva, Domador de Anaconda, Sin Filas, Explorador, Guardián Novato, Hidratación, Madrugador, Conservador, etc.
+   - Cada logro tiene emoji, descripción, puntos
+   - Barra de progreso para logros incrementales (5 atracciones, 3 huellas, etc.)
+   - Persistencia en localStorage
 
-- Mis Reservas en Pasaporte con código PSL, countdown y simulación de turno
-- Banner "Tu turno es ahora" persistente en todas las pantallas
-- Dashboard `/admin` con métricas proyectadas y matriz Hallazgo EAN → Solución
+6. **Timeline de Visita** (en Pasaporte)
+   - Sección desplegable "Tu día en Piscilago"
+   - 4 stats compactos: atracciones, pasos, insignias, CO₂
+   - Timeline vertical con 6 momentos del día (llegada, atracciones, hidratación, huellas)
+   - Calificación del día con NPS reportado
 
-## Lo que se acumula de v2.6
+## Acumulado
 
-- Header persistente con logo Piscilago en TODAS las pantallas
-- 20 atracciones REALES del catálogo oficial piscilago.co
-- Onboarding 6 slides incluyendo Pulsera NFC y transparencia ética
+- v2.7.1: Fix de Portal de modales (sin recortes en scroll)
+- v2.7: Mis Reservas + Banner turno + Dashboard métricas
+- v2.6: Header persistente + 20 atracciones reales del catálogo piscilago.co
+- v2.5: Modal de reserva completo + wording mejorado + mapa con reserva
 
-## Lo que se acumula de v2.5
+## Rutas
 
-- Modal de reserva con formulario completo (personas/hora/accesibilidad/comentarios)
-- Wording "Disponible" + mensajes promocionales
-- Mapa con filtro Hidratación + Ver disponibles + reserva integrada
-- Huellas de Conservación con CO₂ ahorrado
-
-## Demo end-to-end para sustentación
-
-1. **Filas**: tap "Reservar turno" en cualquier atracción → modal completo aparece **CENTRADO Y BIEN POSICIONADO** sin importar el scroll
-2. Confirma reserva → código PSL generado
-3. **Pasaporte**: scroll a "Mis Reservas" → ahí está tu turno
-4. Pulsa "Simular turno (demo)" → banner verde aparece arriba en TODAS las pantallas
-5. Vuelve al Pasaporte → "Validar" → reserva completada
-6. Tap campanita (notificaciones) → panel desliza desde arriba **SIN CORTARSE**
-7. Tap asistente IA → panel desliza desde abajo **PERFECTAMENTE**
-8. Ve a `/admin` → métricas proyectadas + matriz de cobertura
+| URL                   | Pantalla                                                |
+| --------------------- | ------------------------------------------------------- |
+| `/home`               | Inicio con mapa preview + smart layer                   |
+| `/mapa`               | Smart map con filtros y reserva                         |
+| `/filas`              | Filas Inteligentes priorizadas por IA                   |
+| `/huellas`            | Insignias + **Logros** + recompensas                    |
+| `/pasaporte`          | Identidad + Pulsera NFC + Mis Reservas + **Timeline**   |
+| `/atraccion/[id]`     | **NUEVO** · Detalle de atracción con specs              |
+| `/especies/[id]`      | Detalle de especie protegida                            |
+| `/panel/[especie]`    | Panel digital del sendero temático                      |
+| `/admin`              | Dashboard de operaciones con métricas                   |
 
 ## Cómo actualizar GitHub
 
-1. Descomprime `piscilago-v2-v2.7.1.zip` → carpeta `piscilago-v2`
-2. **Abre la carpeta `piscilago-v2`** doble-click
-3. `github.com/Brandonscm/piscilago-v2` → **Add file** → **Upload files**
-4. Selecciona TODO el contenido (Ctrl+A)
-5. Arrastra al área de upload
-6. Commit message: `v2.7.1 - Hotfix: Modal Portal para fix de scroll`
-7. **Commit changes**
-8. Vercel auto-despliega en 2-3 minutos
+1. Descomprime `piscilago-v2-v2.8.zip` → carpeta `piscilago-v2`
+2. Abre la carpeta · Ctrl+A · arrastra a GitHub
+3. Commit: `v2.8 - Detail pages + Logros + Timeline + Hotfixes`
+4. Espera 2 min · Vercel auto-despliega
 
 ## Stack técnico
 

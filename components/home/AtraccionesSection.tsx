@@ -49,7 +49,7 @@ export function AtraccionesSection({ attractions }: { attractions: LiveAttractio
           return (
             <Link
               key={a.id}
-              href={`/filas?focus=${a.id}`}
+              href={`/atraccion/${a.id}`}
               data-carousel-item
               className="shrink-0 w-[160px] bg-white rounded-2xl overflow-hidden shadow-card active:scale-[0.98] transition-transform"
             >
@@ -58,6 +58,7 @@ export function AtraccionesSection({ attractions }: { attractions: LiveAttractio
                   src={imageFor(a.id)}
                   alt={a.name}
                   type={thumbType(a.type)}
+                  attractionId={a.id}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-2 left-2 inline-flex items-center gap-1 bg-white/95 backdrop-blur px-1.5 py-0.5 rounded-md text-[9px] font-semibold text-ink-900">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Accessibility, BookOpen, Type, Contrast, Sparkles, X, Check } from "lucide-react";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { NewBadge } from "./NewBadge";
@@ -23,14 +24,14 @@ export function BrandBar() {
   return (
     <>
       <div className="flex items-center justify-between px-4 pt-2 pb-2 bg-white/85 backdrop-blur-md border-b border-ink-100 sticky top-0 z-20">
-        <div className="flex items-center gap-1.5">
+        <Link href="/home" className="flex items-center gap-1.5 active:scale-95 transition-transform" aria-label="Ir al inicio">
           <p className="text-[14px] font-bold tracking-tight text-col-700 leading-none">
             Pisc<span className="text-sun-500 italic">i</span>lago
           </p>
           <span className="text-[8px] uppercase tracking-wider text-ink-300 font-semibold border-l border-ink-100 pl-1.5 ml-0.5">
             Colsubsidio
           </span>
-        </div>
+        </Link>
         <div className="flex items-center gap-2">
           <div className="relative">
             <button

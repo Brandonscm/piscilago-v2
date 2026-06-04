@@ -6,6 +6,7 @@ import { Trophy, Sparkles, Lock, Leaf, Gift, ArrowRight, Footprints, Award } fro
 import { useInsignias } from "@/lib/useInsignias";
 import { useSteps, REWARD_TIERS_BASE } from "@/lib/useSteps";
 import { showToast } from "@/lib/toast";
+import { LogrosSection } from "@/components/common/LogrosSection";
 
 const ECOSYSTEM_LABELS: Record<string, { name: string; bg: string; text: string }> = {
   acuatico: { name: "Acuático", bg: "bg-aqua-50", text: "text-aqua-700" },
@@ -82,6 +83,8 @@ export default function HuellasPage() {
           )}
         </div>
       </section>
+
+      <LogrosSection />
 
       <div className="px-4 mt-4 flex items-center justify-between">
         <h2 className="text-[13px] font-semibold text-ink-900">

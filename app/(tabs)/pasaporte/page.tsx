@@ -5,6 +5,7 @@ import { Settings, CreditCard, Receipt, Share2, Plus, MapPin, IdCard, MessageCir
 import { showToast } from "@/lib/toast";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { MisReservas } from "@/components/common/MisReservas";
+import { TimelineVisita } from "@/components/common/TimelineVisita";
 
 const INITIAL_PHONE = "+57 310 772 0361";
 const INITIAL_DOC = "1.014.****.892";
@@ -153,6 +154,8 @@ export default function PasaportePage() {
       </div>
 
       <MisReservas />
+
+      <TimelineVisita />
 
       <div className="mx-4 mt-4 bg-white rounded-2xl p-4 shadow-card">
         <div className="flex items-center gap-2 mb-3">

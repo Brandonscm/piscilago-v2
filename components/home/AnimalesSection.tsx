@@ -32,6 +32,7 @@ export function AnimalesSection() {
                 src={s.imageUrl}
                 alt={s.name}
                 type="fauna"
+                attractionId={s.id}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-2 left-2 inline-flex items-center gap-1 bg-wild-500 text-white px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wide">
